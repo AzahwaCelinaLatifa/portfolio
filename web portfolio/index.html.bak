@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azahwa Celina Latifa — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Epilogue:wght@200;300;400;700&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,100;0,9..144,300;1,9..144,200&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0efe9;--bg2:#e8e7e0;--bg3:#dddcd4;
+  --text:#111110;--text2:#3d3c36;--text3:#888880;
+  --border:rgba(17,17,16,.1);--border2:rgba(17,17,16,.05);
+  --nav:rgba(240,239,233,.92);--card:#eae9e2;
+  --sv1:#d0d0c8;--sv2:#b8b8b0;--sv3:#e4e4dc;
+  --svg:linear-gradient(135deg,#e8e8e0 0%,#c0c0b8 30%,#e0e0d8 50%,#a8a8a0 70%,#d8d8d0 100%);
+  --svg2:linear-gradient(135deg,#f0f0e8 0%,#c8c8c0 25%,#e8e8e0 50%,#b0b0a8 75%,#e0e0d8 100%);
+  --t:.35s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#0a0a08;--bg2:#111110;--bg3:#181816;
+  --text:#f0efe8;--text2:#c0bfb6;--text3:#55554e;
+  --border:rgba(240,239,232,.09);--border2:rgba(240,239,232,.04);
+  --nav:rgba(10,10,8,.92);--card:#141412;
+  --sv1:#484840;--sv2:#383830;--sv3:#585850;
+  --svg:linear-gradient(135deg,#585850 0%,#383830 30%,#504f48 50%,#2c2c24 70%,#484840 100%);
+  --svg2:linear-gradient(135deg,#686860 0%,#404038 25%,#585850 50%,#303028 75%,#505048 100%);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Epilogue',sans-serif;font-size:14px;line-height:1.7;overflow-x:hidden;transition:background var(--t),color var(--t)}
+
+/* NAV */
+nav{position:fixed;top:0;inset-x:0;z-index:999;height:52px;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;background:var(--nav);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);transition:background var(--t)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--text);text-decoration:none}
+.nl{display:flex;gap:0;list-style:none;flex:1;justify-content:center}
+.nl a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--text3);text-decoration:none;padding:.3rem .85rem;border-radius:3px;transition:color var(--t),background var(--t)}
+.nl a:hover,.nl a.act{color:var(--text);background:var(--border2)}
+.nr{display:flex;align-items:center;gap:10px;margin-left:auto}
+.lsel{appearance:none;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;font-size:10px;padding:4px 22px 4px 9px;border-radius:5px;cursor:pointer;outline:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:border-color var(--t)}
+.tw{display:flex;align-items:center;gap:6px}
+.tlb{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);min-width:26px}
+.tog{position:relative;width:36px;height:19px;cursor:pointer}
+.tog input{opacity:0;width:0;height:0}
+.tsl{position:absolute;inset:0;background:var(--border);border:1px solid var(--border);border-radius:20px;transition:all var(--t)}
+.tsl::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;background:var(--text);border-radius:50%;transition:transform var(--t)}
+input:checked+.tsl{background:var(--text);border-color:var(--text)}
+input:checked+.tsl::after{background:var(--bg);transform:translateX(17px)}
+.hbg{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:4px}
+.hbg span{display:block;width:20px;height:1.5px;background:var(--text);border-radius:1px;transition:all var(--t)}
+.hbg.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mm{display:none;position:fixed;top:52px;inset-x:0;z-index:998;background:var(--nav);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);padding:1rem 1.5rem 1.5rem;flex-direction:column;gap:.25rem}
+.mm.open{display:flex}
+.mm a{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);text-decoration:none;padding:.5rem 0;border-bottom:1px solid var(--border2)}
+
+/* SILVER */
+.sv-tag{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;padding:5px 13px;border-radius:100px;background:var(--svg);color:#111;border:1px solid var(--sv2);cursor:default;transition:all .2s;position:relative;overflow:hidden;font-weight:500}
+[data-theme="dark"] .sv-tag{color:#f0f0e8}
+.sv-tag::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:translateX(-100%);transition:transform .5s}
+.sv-tag:hover::before{transform:translateX(100%)}
+.sv-tag:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.13)}
+.sv-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;padding:11px 24px;border-radius:5px;cursor:pointer;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;background:var(--svg2);color:#111;border:1px solid var(--sv2);font-weight:500}
+[data-theme="dark"] .sv-btn{color:#f0f0e8}
+.sv-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.32),transparent);transform:translateX(-100%);transition:transform .55s}
+.sv-btn:hover::after{transform:translateX(100%)}
+.sv-btn:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.16)}
+.sv-dot{width:7px;height:7px;border-radius:50%;background:var(--svg2);display:inline-block;border:1px solid var(--sv2);flex-shrink:0}
+
+/* ──────────────────────────────────
+   SECTION BASE
+────────────────────────────────── */
+section{position:relative;overflow:hidden;min-height:100vh;padding-top:52px}
+.sec-inner{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:6rem 2rem}
+
+/* ══════════════════════════════════
+   HOME — Particle Field + Paper Fold
+══════════════════════════════════ */
+#home{background:var(--bg)}
+#home-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
+.home-paper{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(17,17,16,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,17,16,.04) 1px, transparent 1px);
+  background-size:60px 60px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,#000 30%,transparent 100%);
+  mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,#000 30%,transparent 100%);
+  transition:opacity var(--t);
+}
+[data-theme="dark"] .home-paper{background-image:linear-gradient(rgba(240,239,232,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(240,239,232,.04) 1px,transparent 1px);background-size:60px 60px}
+#home .sec-inner{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:4rem;min-height:calc(100vh - 52px);
+}
+.h-left{text-align:right}
+.h-right{text-align:left;display:flex;flex-direction:column;gap:1.5rem}
+.h-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-bottom:.75rem}
+.h-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,9vw,100px);line-height:.9;letter-spacing:1px;color:var(--text)}
+.h-name em{font-family:'Fraunces',serif;font-style:italic;font-weight:200}
+.h-tag{font-family:'Fraunces',serif;font-style:italic;font-weight:200;font-size:clamp(15px,2vw,20px);color:var(--text3);line-height:1.5}
+.h-desc{font-size:13px;color:var(--text2);line-height:1.9;max-width:300px}
+.h-meta{display:flex;flex-wrap:wrap;gap:6px}
+.h-cta{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.h-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--text3);display:flex;flex-direction:column;align-items:center;gap:6px;animation:sp 2.5s infinite;z-index:2}
+@keyframes sp{0%,100%{opacity:.4;transform:translateX(-50%) translateY(0)}50%{opacity:1;transform:translateX(-50%) translateY(6px)}}
+
+/* LANYARD */
+.lanyard-wrap{display:flex;flex-direction:column;align-items:center;position:relative;user-select:none;width:190px}
+.l-hook{width:18px;height:22px;margin:0 auto}
+.l-hook svg{width:100%;height:100%}
+.l-rope{width:2.5px;height:72px;background:linear-gradient(180deg,var(--sv2) 0%,var(--sv1) 40%,var(--sv3) 60%,var(--sv2) 100%);margin:0 auto;border-radius:2px;transform-origin:top center}
+.l-clip{width:13px;height:20px;margin:0 auto;background:var(--svg2);border-radius:3px 3px 5px 5px;border:1px solid var(--sv2);box-shadow:0 2px 6px rgba(0,0,0,.2);position:relative}
+.l-clip::before{content:'';position:absolute;top:3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--bg);border:1px solid var(--sv2)}
+.l-card{width:155px;border-radius:11px;overflow:hidden;border:2px solid var(--sv2);box-shadow:0 8px 32px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.2);cursor:grab;background:var(--card);transform-origin:top center}
+.l-card:active{cursor:grabbing}
+.l-stripe{height:26px;background:var(--svg2);border-bottom:1px solid var(--sv2);display:flex;align-items:center;padding:0 10px;gap:6px}
+.l-stripe-txt{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.15em;color:var(--text3)}
+.l-dots{display:flex;gap:3px;margin-left:auto}
+.l-dot{width:5px;height:5px;border-radius:50%;background:var(--sv3);border:1px solid var(--sv2)}
+.l-ph{width:100%;aspect-ratio:3/4;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text3);font-size:10px;font-family:'DM Mono',monospace}
+.l-photo{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:grayscale(100%) contrast(1.05)}
+.l-foot{padding:9px;background:var(--bg3);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.l-fn{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;color:var(--text);line-height:1}
+.l-fr{font-family:'DM Mono',monospace;font-size:8px;color:var(--text3);letter-spacing:.08em}
+.l-chip{margin-left:auto;width:24px;height:18px;background:var(--svg2);border-radius:3px;border:1px solid var(--sv2);display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:2px;padding:3px}
+.l-chip div{background:rgba(0,0,0,.1);border-radius:1px}
+
+/* ══════════════════════════════════
+   ABOUT — Crumpled Paper / Noise Texture
+══════════════════════════════════ */
+#about{background:var(--bg2)}
+#about-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.paper-fold{position:absolute;border-radius:2px;opacity:.06;pointer-events:none}
+[data-theme="dark"] .paper-fold{opacity:.04}
+#about .sec-inner{padding-top:7rem;padding-bottom:6rem}
+.a-head-row{display:flex;align-items:flex-end;gap:3rem;margin-bottom:5rem;border-bottom:1px solid var(--border);padding-bottom:2rem}
+.a-issue{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);flex-shrink:0}
+.a-big{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,76px);font-weight:700;line-height:.95;letter-spacing:-2px;color:var(--text);flex:1}
+.a-big em{font-style:italic;color:var(--text3)}
+.a-sub{font-family:'Fraunces',serif;font-style:italic;font-size:17px;font-weight:200;color:var(--text3);max-width:240px;line-height:1.5;flex-shrink:0}
+.a-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem}
+.a-ct{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border2)}
+.a-p{font-size:13px;color:var(--text2);line-height:2;margin-bottom:1rem}
+.a-edu{padding:.75rem 0;border-bottom:1px solid var(--border2)}
+.a-edu:last-child{border:none}
+.a-school{font-size:13px;font-weight:700;color:var(--text)}
+.a-esub{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);margin-top:2px}
+.a-hob{display:flex;align-items:center;gap:10px;padding:.45rem 0;font-size:13px;color:var(--text2)}
+.a-sw{display:flex;flex-wrap:wrap;gap:6px}
+
+/* ══════════════════════════════════
+   SKILLS — Dot Matrix / Halftone
+══════════════════════════════════ */
+#skills{background:var(--bg)}
+#skills-canvas{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.35}
+[data-theme="dark"] #skills-canvas{opacity:.2}
+#skills .sec-inner{padding-top:7rem;padding-bottom:6rem}
+.sk-header{display:flex;align-items:baseline;gap:2rem;margin-bottom:4rem}
+.sk-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(70px,12vw,140px);line-height:.9;color:var(--border);letter-spacing:-2px;transition:color var(--t)}
+.sk-ttl{font-family:'Epilogue',sans-serif;font-size:clamp(22px,4vw,40px);font-weight:700;line-height:1.1;color:var(--text);letter-spacing:-1px}
+.sk-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:.15em;margin-top:.4rem}
+.sk-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:4rem;position:relative;z-index:1}
+.sk-group{margin-bottom:3rem}
+.sk-gt{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--text3);margin-bottom:1.5rem;border-left:3px solid var(--sv2);padding-left:.75rem}
+.sk-bar{margin-bottom:1.25rem}
+.sk-bh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.sk-bn{font-size:13px;color:var(--text);font-weight:600}
+.sk-bp{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3)}
+.sk-trk{height:3px;background:var(--border);border-radius:2px;overflow:visible;position:relative}
+.sk-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--sv2),var(--sv3),var(--sv2));transform-origin:left;transform:scaleX(0);transition:transform 1.4s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(160,160,150,.4);position:relative}
+.sk-fill.on{transform:scaleX(1)}
+.sk-fill::after{content:'';position:absolute;right:-3px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--svg2);border:1px solid var(--sv2);box-shadow:0 0 6px rgba(180,180,160,.6)}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:.75rem}
+.pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.05em;padding:6px 13px;border-radius:4px;border:1px solid var(--border);color:var(--text2);background:var(--card);transition:all .2s;cursor:default;position:relative;overflow:hidden}
+.pill::before{content:'';position:absolute;inset:0;background:var(--svg);opacity:0;transition:opacity .2s}
+.pill:hover::before{opacity:1}
+.pill:hover{color:var(--text);border-color:var(--sv2);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.pill span{position:relative;z-index:1}
+
+/* ══════════════════════════════════
+   PORTFOLIO — Spotlight / Magnetic
+══════════════════════════════════ */
+#portfolio{background:var(--bg2)}
+#portfolio-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
+#portfolio .sec-inner{padding-top:7rem;padding-bottom:6rem}
+.pt-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem;flex-wrap:wrap;gap:1rem;position:relative;z-index:1}
+.pt-title{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,64px);font-weight:400;line-height:1;letter-spacing:-1px;color:var(--text)}
+.pt-title em{font-style:italic;color:var(--text3)}
+.pt-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:.15em;text-align:right}
+.pt-tiles{display:grid;grid-template-columns:1fr 1fr;gap:3px;position:relative;z-index:1}
+.tile{position:relative;overflow:hidden;cursor:pointer;background:var(--bg3)}
+.tile:nth-child(1){min-height:420px}
+.tile:nth-child(2){aspect-ratio:4/3}
+.tile:nth-child(3){aspect-ratio:4/3}
+.tile:nth-child(4){grid-column:1/3;aspect-ratio:21/6}
+.t-ph{width:100%;height:100%;min-height:inherit;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--text3);font-size:11px;font-family:'DM Mono',monospace;transition:filter .4s,transform .6s}
+.tile:hover .t-ph{filter:brightness(.5) contrast(1.1);transform:scale(1.04)}
+.t-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(0,0,0,.9) 100%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem}
+.tile:hover .t-ov{opacity:1}
+.t-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#f0efe9;margin-bottom:.25rem}
+.t-desc{font-size:11px;color:rgba(240,239,232,.7);line-height:1.6;margin-bottom:.75rem;font-family:'Epilogue',sans-serif}
+.t-link{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;color:#f0efe9;text-decoration:none;border-bottom:1px solid rgba(240,239,232,.3);padding-bottom:2px;width:fit-content;transition:border-color .2s}
+.t-link:hover{border-color:#f0efe9}
+.t-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.5rem}
+.t-tag{font-size:8px;letter-spacing:.08em;padding:2px 7px;border-radius:2px;background:rgba(240,239,232,.12);color:rgba(240,239,232,.6);border:1px solid rgba(240,239,232,.15);font-family:'DM Mono',monospace}
+.t-num{position:absolute;top:1rem;left:1rem;font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--text3);background:var(--bg);padding:3px 8px;border-radius:3px;transition:opacity .3s}
+.tile:hover .t-num{opacity:0}
+/* spotlight on tile */
+.tile-spot{position:absolute;pointer-events:none;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);width:200px;height:200px;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;z-index:1}
+.tile:hover .tile-spot{opacity:1}
+
+/* ══════════════════════════════════
+   CV — Topography Lines
+══════════════════════════════════ */
+#cv{background:var(--bg)}
+#cv-svg-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#cv .sec-inner{padding-top:7rem;padding-bottom:6rem;position:relative;z-index:1}
+.cv-mast{border-top:4px solid var(--text);border-bottom:1px solid var(--border);padding:1.5rem 0;margin-bottom:3rem;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;transition:border-color var(--t)}
+.cv-mn{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,52px);font-weight:700;letter-spacing:-1px;color:var(--text)}
+.cv-mr{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--text3)}
+.cv-md{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.08em}
+.cv-body{display:grid;grid-template-columns:270px 1fr;gap:3rem}
+.cv-aside-ph{width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text3);font-size:10px;margin-bottom:1.5rem;border:1px dashed var(--border);font-family:'DM Mono',monospace}
+.cv-photo{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(100%) contrast(1.08);border-radius:3px;margin-bottom:1.5rem}
+.cv-ab{margin-bottom:2rem}
+.cv-at{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;color:var(--text);margin-bottom:.75rem;border-bottom:1px solid var(--border);padding-bottom:.5rem}
+.cv-ai{font-size:12px;color:var(--text2);padding:.25rem 0;display:flex;align-items:flex-start;gap:6px;font-family:'Epilogue',sans-serif}
+.cv-ai .sv-dot{margin-top:5px}
+.cv-sr{margin-bottom:.75rem}
+.cv-sn{font-family:'DM Mono',monospace;font-size:10px;color:var(--text2);margin-bottom:4px}
+.cv-ds{display:flex;gap:4px}
+.cv-d{width:10px;height:10px;border-radius:2px;background:var(--border);transition:background .3s}
+.cv-d.on{background:var(--svg2);border:1px solid var(--sv2)}
+.cv-main-block{margin-bottom:2.5rem}
+.cv-mbt{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:2px;color:var(--text);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--text3)}
+.cv-ent{padding:.75rem 0;border-bottom:1px solid var(--border2)}
+.cv-ent:last-child{border:none}
+.cv-er{display:flex;align-items:flex-start;gap:1rem;justify-content:space-between}
+.cv-et{font-size:14px;font-weight:700;color:var(--text);font-family:'Epilogue',sans-serif}
+.cv-ey{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);flex-shrink:0;padding-top:2px}
+.cv-es{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);margin-top:2px}
+.cv-ed{font-size:12px;color:var(--text2);margin-top:.5rem;line-height:1.8;font-family:'Epilogue',sans-serif}
+.cv-qb{background:var(--bg2);border:1px solid var(--sv2);border-radius:6px;padding:1.5rem;margin-top:1.5rem;position:relative;overflow:hidden}
+.cv-qb::before{content:'';position:absolute;inset:0;background:var(--svg);opacity:.04;pointer-events:none}
+.cv-qt{font-family:'Fraunces',serif;font-style:italic;font-weight:200;font-size:17px;color:var(--text);line-height:1.7;position:relative}
+.cv-qa{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.12em;margin-top:.75rem;position:relative}
+.cv-pr{display:flex;justify-content:flex-end;margin-bottom:1.5rem}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border2);padding:2rem;text-align:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:.08em;background:var(--bg)}
+
+/* SCROLL REVEAL */
+.par{will-change:transform}
+.rv{opacity:0;transform:translateY(32px);transition:opacity .75s ease,transform .75s ease}
+.rv.in{opacity:1;transform:none}
+.rv-l{opacity:0;transform:translateX(-32px);transition:opacity .75s ease,transform .75s ease}
+.rv-l.in{opacity:1;transform:none}
+.rv-r{opacity:0;transform:translateX(32px);transition:opacity .75s ease,transform .75s ease}
+.rv-r.in{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nl{display:none}.hbg{display:flex}
+  #home .sec-inner{grid-template-columns:1fr;text-align:center;gap:2rem}
+  .h-left{text-align:center}.h-right{align-items:center}.h-desc{max-width:100%}
+  .lanyard-wrap{margin:0 auto}.a-head-row{flex-direction:column;gap:1rem}
+  .a-issue{writing-mode:horizontal-tb;transform:none}
+  .a-cols,.sk-grid,.pt-tiles,.cv-body{grid-template-columns:1fr}
+  .tile:nth-child(1),.tile:nth-child(2),.tile:nth-child(3),.tile:nth-child(4){grid-column:1;min-height:220px;aspect-ratio:16/9}
+  .a-big{font-size:36px}
+}
+@media print{
+  nav,.h-scroll,#home,#about,#skills,#portfolio,footer,.cv-pr{display:none!important}
+  #cv{display:block!important;padding:0;max-width:100%;min-height:unset}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="logo">ACL.</a>
+  <ul class="nl" id="nl">
+    <li><a href="#home" data-i18n="nh">Beranda</a></li>
+    <li><a href="#about" data-i18n="na">Tentang</a></li>
+    <li><a href="#skills" data-i18n="nsk">Keahlian</a></li>
+    <li><a href="#portfolio" data-i18n="np">Portofolio</a></li>
+    <li><a href="#cv" data-i18n="nc">CV</a></li>
+  </ul>
+  <div class="nr">
+    <select class="lsel" id="lsel"><option value="id">🇮🇩 ID</option><option value="en">🇬🇧 EN</option></select>
+    <div class="tw">
+      <span class="tlb" id="tlb">Light</span>
+      <label class="tog"><input type="checkbox" id="thT"><span class="tsl"></span></label>
+    </div>
+    <div class="hbg" id="hbg" onclick="toggleMob()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mm" id="mm">
+  <a href="#home" onclick="toggleMob()" data-i18n="nh">Beranda</a>
+  <a href="#about" onclick="toggleMob()" data-i18n="na">Tentang Saya</a>
+  <a href="#skills" onclick="toggleMob()" data-i18n="nsk">Keahlian</a>
+  <a href="#portfolio" onclick="toggleMob()" data-i18n="np">Portofolio</a>
+  <a href="#cv" onclick="toggleMob()" data-i18n="nc">Curriculum Vitae</a>
+</div>
+
+<!-- ═══ HOME ═══ -->
+<section id="home">
+  <canvas id="home-canvas"></canvas>
+  <div class="home-paper"></div>
+  <div class="sec-inner">
+    <div class="h-left rv-l">
+      <div class="h-eyebrow" data-i18n="havl">Tersedia untuk Peluang Baru</div>
+      <div class="h-name">Azahwa<br><em>Celina Latifa</em></div>
+      <div style="margin-top:1rem"><div class="h-tag" data-i18n="htag">Calon Web Developer & IT Enthusiast<br>Tertarik pada UI/UX dan Jaringan</div></div>
+    </div>
+    <!-- LANYARD CENTER -->
+    <div class="lanyard-wrap rv" id="lWrap">
+      <div class="l-hook"><svg viewBox="0 0 20 24" fill="none"><path d="M10 2C10 2 4 2 4 8C4 11 6 13 10 13C14 13 16 11 16 8C16 2 10 2 10 2Z" stroke="#b8b8b0" stroke-width="1.5" fill="none"/><rect x="9" y="12" width="2" height="6" rx="1" fill="#b8b8b0"/></svg></div>
+      <div class="l-rope" id="lRope"></div>
+      <div class="l-clip"></div>
+      <div class="l-card" id="lCard">
+        <div class="l-stripe"><span class="l-stripe-txt">STUDENT ID · SIJA</span><div class="l-dots"><div class="l-dot"></div><div class="l-dot"></div><div class="l-dot"></div></div></div>
+        <div class="l-ph">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span>Foto Kamu</span>
+        </div>
+        <div class="l-foot">
+          <div><div class="l-fn">Azahwa Celina Latifa</div><div class="l-fr">WEB DEV · DESIGNER</div></div>
+          <div class="l-chip"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+      </div>
+      <div style="margin-top:.75rem;text-align:center"><span class="sv-tag" style="font-size:8px" data-i18n="drag">↕ Tarik kartu</span></div>
+    </div>
+    <div class="h-right rv-r">
+      <p class="h-desc" data-i18n="hdesc">Saya adalah siswa SMK yang bersemangat dalam dunia teknologi dan pengembangan web. Saya percaya desain yang baik bukan hanya soal tampilan, tapi tentang pengalaman. Terus belajar, terus berkarya.</p>
+      <div class="h-meta"><span class="sv-tag" data-i18n="t1"> Semarang</span><span class="sv-tag" data-i18n="t2"> SMK SIJA</span><span class="sv-tag" data-i18n="t3"> Web Dev</span></div>
+      <div class="h-cta">
+        <a href="#portfolio" class="sv-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg><span data-i18n="bw">Lihat Karya</span></a>
+        <a href="#cv" class="sv-btn" style="background:transparent;border-color:var(--border);color:var(--text)"><span data-i18n="bc">Unduh CV</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="h-scroll"><span data-i18n="sc">scroll</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div id="about-bg"></div>
+  <div class="sec-inner">
+    <div class="a-head-row rv">
+      <div class="a-issue" data-i18n="lab_a">001 — Tentang Saya</div>
+      <div class="a-big" data-i18n="a_ttl">Mengenal<br><em>Lebih Dekat</em></div>
+      <div class="a-sub" data-i18n="a_sub">Seorang pelajar, desainer, dan pembangun hal-hal digital.</div>
+    </div>
+    <div class="a-cols rv">
+      <div>
+        <div class="a-ct" data-i18n="af_t">Keluarga & Latar</div>
+        <p class="a-p" data-i18n="af_p">Lahir dan besar di Semarang, Jawa Barat. Anak pertama dari dua bersaudara dalam keluarga sederhana yang mengutamakan pendidikan. Ayah saya seorang teknisi — itulah awal ketertarikan saya pada dunia teknis.</p>
+        <div class="a-ct" style="margin-top:2rem" data-i18n="ae_t">Pendidikan</div>
+        <div class="a-edu"><div class="a-school">SMK Negeri 7 Semarang</div><div class="a-esub">Teknik Komputer &amp; Jaringan · 2022 – Sekarang</div></div>
+        <div class="a-edu"><div class="a-school">SMP Negeri 5 Semarang</div><div class="a-esub">2019 – 2022</div></div>
+        <div class="a-edu"><div class="a-school">SD Negeri Sukorejo 1</div><div class="a-esub">2013 – 2019</div></div>
+      </div>
+      <div>
+        <div class="a-ct" data-i18n="ahob_t">Hobi &amp; Minat</div>
+        <div class="a-hob"><span class="sv-dot"></span><span data-i18n="h1">Desain grafis &amp; UI/UX exploration</span></div>
+        <div class="a-hob"><span class="sv-dot"></span><span data-i18n="h2">Membaca artikel teknologi</span></div>
+        <div class="a-hob"><span class="sv-dot"></span><span data-i18n="h3">Hackathon &amp; lomba IT</span></div>
+        <div class="a-hob"><span class="sv-dot"></span><span data-i18n="h4">Fotografi urban</span></div>
+        <div class="a-hob"><span class="sv-dot"></span><span data-i18n="h5">Gitar akustik</span></div>
+        <div class="a-ct" style="margin-top:2rem" data-i18n="ac_t">Tujuan Karier</div>
+        <p class="a-p" data-i18n="ac_p">Menjadi Full-Stack Developer yang menciptakan solusi digital berdampak, berkontribusi di perusahaan teknologi inovatif sambil terus bertumbuh.</p>
+      </div>
+      <div>
+        <div class="a-ct" data-i18n="astr_t">Kelebihan Diri</div>
+        <div style="margin-bottom:1rem">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--text3);margin-bottom:.5rem" data-i18n="sft">SOFT SKILLS</div>
+          <div class="a-sw"><span class="sv-tag" data-i18n="ss1">Cepat Belajar</span><span class="sv-tag" data-i18n="ss2">Kreatif</span><span class="sv-tag" data-i18n="ss3">Detail-Oriented</span><span class="sv-tag" data-i18n="ss4">Kerja Tim</span><span class="sv-tag" data-i18n="ss5">Adaptif</span><span class="sv-tag" data-i18n="ss6">Komunikatif</span></div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--text3);margin-bottom:.5rem" data-i18n="hrd">HARD SKILLS</div>
+          <div class="a-sw"><span class="sv-tag">HTML &amp; CSS</span><span class="sv-tag">JavaScript</span><span class="sv-tag">Cisco</span><span class="sv-tag">Canva</span><span class="sv-tag">Photoshop</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <canvas id="skills-canvas"></canvas>
+  <div class="sec-inner">
+    <div class="sk-header rv">
+      <div class="sk-num par" data-par="0.3">02</div>
+      <div><div class="sk-ttl" data-i18n="skt">Apa yang<br>Saya Kuasai</div><div class="sk-sub" data-i18n="sksub">— Keahlian Teknis &amp; Kreatif</div></div>
+    </div>
+    <div class="sk-grid">
+      <div class="rv-l">
+        <div class="sk-group">
+          <div class="sk-gt">WEB</div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">HTML5 &amp; CSS3</span><span class="sk-bp">85%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".85"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">JavaScript</span><span class="sk-bp">60%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".60"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Responsive Design</span><span class="sk-bp">78%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".78"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Bootstrap / Tailwind</span><span class="sk-bp">52%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".52"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">PHP &amp; MySQL</span><span class="sk-bp">45%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".45"></div></div></div>
+        </div>
+        <div class="sk-group">
+          <div class="sk-gt">NETWORK</div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Cisco Packet Tracer</span><span class="sk-bp">80%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".80"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">TCP/IP &amp; Subnetting</span><span class="sk-bp">72%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".72"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Router / Switch Config</span><span class="sk-bp">65%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".65"></div></div></div>
+        </div>
+      </div>
+      <div class="rv-r">
+        <div class="sk-group">
+          <div class="sk-gt">DESIGN</div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Canva</span><span class="sk-bp">92%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".92"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Adobe Photoshop</span><span class="sk-bp">63%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".63"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Figma (Dasar)</span><span class="sk-bp">45%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".45"></div></div></div>
+          <div class="sk-bar"><div class="sk-bh"><span class="sk-bn">Adobe Premiere</span><span class="sk-bp">55%</span></div><div class="sk-trk"><div class="sk-fill" data-w=".55"></div></div></div>
+        </div>
+        <div class="sk-group">
+          <div class="sk-gt">TOOLS</div>
+          <div class="pills"><div class="pill"><span>Git &amp; GitHub</span></div><div class="pill"><span>VS Code</span></div><div class="pill"><span>Linux Ubuntu</span></div><div class="pill"><span>Microsoft Office</span></div><div class="pill"><span>WordPress</span></div><div class="pill"><span>Wireshark</span></div><div class="pill"><span>VirtualBox</span></div><div class="pill"><span>XAMPP</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PORTFOLIO ═══ -->
+<section id="portfolio">
+  <canvas id="portfolio-canvas"></canvas>
+  <div class="sec-inner">
+    <div class="pt-header rv">
+      <div><div class="pt-title" data-i18n="pttl">Karya &amp;<br><em>Proyek</em></div></div>
+      <div class="pt-meta"><div data-i18n="ptm1">4 proyek selesai</div><div data-i18n="ptm2">2024 – 2025</div></div>
+    </div>
+    <div class="pt-tiles rv">
+      <div class="tile"><div class="tile-spot"></div><div class="t-num">01</div><div class="t-ph"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Screenshot</span></div><div class="t-ov"><div class="t-tags"><span class="t-tag">HTML</span><span class="t-tag">CSS</span><span class="t-tag">JS</span></div><div class="t-title" data-i18n="p1t">Website Sekolah</div><div class="t-desc" data-i18n="p1d">Website profil SMK responsif dengan galeri, berita, dan halaman kontak interaktif.</div><a href="#" class="t-link" data-i18n="vp">Lihat Proyek →</a></div></div>
+      <div class="tile"><div class="tile-spot"></div><div class="t-num">02</div><div class="t-ph"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l4 4"/></svg><span>Screenshot</span></div><div class="t-ov"><div class="t-tags"><span class="t-tag">Cisco</span><span class="t-tag">Packet Tracer</span></div><div class="t-title" data-i18n="p2t">Simulasi Jaringan LAN</div><div class="t-desc" data-i18n="p2d">Simulasi LAN 3 subnet dengan VLAN, routing, dan troubleshooting komprehensif.</div><a href="#" class="t-link" data-i18n="vp">Lihat Proyek →</a></div></div>
+      <div class="tile"><div class="tile-spot"></div><div class="t-num">03</div><div class="t-ph"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Screenshot</span></div><div class="t-ov"><div class="t-tags"><span class="t-tag">Canva</span><span class="t-tag">Branding</span></div><div class="t-title" data-i18n="p3t">Brand Identity OSIS</div><div class="t-desc" data-i18n="p3d">Identitas visual lengkap: logo, poster, dan template sosmed untuk OSIS sekolah.</div><a href="#" class="t-link" data-i18n="vp">Lihat Proyek →</a></div></div>
+      <div class="tile"><div class="tile-spot"></div><div class="t-num">04</div><div class="t-ph"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg><span>Screenshot</span></div><div class="t-ov"><div class="t-tags"><span class="t-tag">PHP</span><span class="t-tag">MySQL</span><span class="t-tag">Bootstrap</span></div><div class="t-title" data-i18n="p4t">Sistem Inventaris</div><div class="t-desc" data-i18n="p4d">Aplikasi manajemen inventaris dengan fitur CRUD, laporan stok, dan UI intuitif.</div><a href="#" class="t-link" data-i18n="vp">Lihat Proyek →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CV ═══ -->
+<section id="cv">
+  <svg id="cv-svg-bg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"></svg>
+  <div class="sec-inner">
+    <div class="cv-pr"><button class="sv-btn" onclick="window.print()" data-i18n="pcv">Cetak / PDF</button></div>
+    <div class="cv-mast rv">
+      <div><div class="cv-mn">Azahwa Celina Latifa</div><div class="cv-mr" data-i18n="cvr">SISWA SMK · TEKNIK KOMPUTER &amp; JARINGAN · CALON WEB DEVELOPER</div></div>
+      <div class="cv-md" data-i18n="cvd">Semarang · 2025</div>
+    </div>
+    <div class="cv-body rv">
+      <div>
+        <div class="cv-aside-ph"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Foto Profesional</span><span style="font-size:8px;opacity:.6">Ganti dengan &lt;img&gt;</span></div>
+        <div class="cv-ab"><div class="cv-at" data-i18n="cvct">Kontak</div><div class="cv-ai"><span class="sv-dot"></span>azahwacelinalatifa@gmail.com</div><div class="cv-ai"><span class="sv-dot"></span>+62 812-2519-4448</div><div class="cv-ai"><span class="sv-dot"></span>Semarang, Indonesia</div><div class="cv-ai"><span class="sv-dot"></span>github.com/AzahwaCelina Latifa</div></div>
+        <div class="cv-ab"><div class="cv-at" data-i18n="cvpt">Data Pribadi</div><div class="cv-ai"><span class="sv-dot"></span><span data-i18n="cvdob">Semarang, 2 Desember 2008</span></div><div class="cv-ai"><span class="sv-dot"></span><span data-i18n="cvre">Islam</span></div><div class="cv-ai"><span class="sv-dot"></span><span data-i18n="cvci">Indonesia</span></div></div>
+        <div class="cv-ab"><div class="cv-at" data-i18n="cvst">Keahlian</div>
+          <div class="cv-sr"><div class="cv-sn">HTML &amp; CSS</div><div class="cv-ds"><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d"></div></div></div>
+          <div class="cv-sr"><div class="cv-sn">JavaScript</div><div class="cv-ds"><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d"></div><div class="cv-d"></div></div></div>
+          <div class="cv-sr"><div class="cv-sn">Cisco Packet Tracer</div><div class="cv-ds"><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d"></div></div></div>
+          <div class="cv-sr"><div class="cv-sn">Canva / Photoshop</div><div class="cv-ds"><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d on"></div></div></div>
+          <div class="cv-sr"><div class="cv-sn">PHP &amp; MySQL</div><div class="cv-ds"><div class="cv-d on"></div><div class="cv-d on"></div><div class="cv-d"></div><div class="cv-d"></div><div class="cv-d"></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="cv-main-block"><div class="cv-mbt" data-i18n="cvpft">Profil</div><p class="cv-ed" data-i18n="cvpf">Siswa SMK jurusan Sistem Informasi Jaringan dan Aplikasi dengan ketertarikan kuat pada pengembangan web dan desain UI/UX. Berpengalaman dalam pembuatan website, desain grafis, dan konfigurasi jaringan komputer. Termotivasi untuk terus belajar dan berkontribusi dalam ekosistem teknologi digital Indonesia.</p></div>
+        <div class="cv-main-block"><div class="cv-mbt" data-i18n="cvedt">Pendidikan</div>
+          <div class="cv-ent"><div class="cv-er"><div><div class="cv-et">SMK Negeri 7 Semarang</div><div class="cv-es">Teknik Komputer &amp; Jaringan</div></div><div class="cv-ey">2022–kini</div></div></div>
+          <div class="cv-ent"><div class="cv-er"><div><div class="cv-et">SMP Negeri 5 Semarang</div></div><div class="cv-ey">2019–2022</div></div></div>
+          <div class="cv-ent"><div class="cv-er"><div><div class="cv-et">SD Negeri Sukorejo 1</div></div><div class="cv-ey">2013–2019</div></div></div>
+        </div>
+        <div class="cv-main-block"><div class="cv-mbt" data-i18n="cvext">Pengalaman &amp; Kegiatan</div>
+          <div class="cv-ent"><div class="cv-er"><div><div class="cv-et" data-i18n="e1t">Juara 2 — LKS Web Design Tingkat Kota</div><div class="cv-es">Dinas Pendidikan Kota Semarang</div></div><div class="cv-ey">2024</div></div><div class="cv-ed" data-i18n="e1d">Meraih juara 2 dalam lomba desain web tingkat kota dengan website company profile responsif dan estetis.</div></div>
+          <div class="cv-ent"><div class="cv-er"><div><div class="cv-et" data-i18n="e2t">Ketua Divisi IT — OSIS SMK Negeri 4</div></div><div class="cv-ey">2023–2024</div></div><div class="cv-ed" data-i18n="e2d">Memimpin tim IT dalam pengelolaan media sosial, dokumentasi, dan konten digital sekolah.</div></div>
+          <div class="cv-ent"><div class="cv-er"><div><div class="cv-et" data-i18n="e3t">PKL — CV Maju Teknologi</div><div class="cv-es">Semarang</div></div><div class="cv-ey">Jul–Sep 2024</div></div><div class="cv-ed" data-i18n="e3d">Maintenance jaringan, troubleshooting hardware, dan pengembangan website internal perusahaan.</div></div>
+          <div class="cv-ent"><div class="cv-er"><div><div class="cv-et" data-i18n="e4t">Peserta Hackathon Youth Tech 2024</div><div class="cv-es">ITB</div></div><div class="cv-ey">Nov 2024</div></div><div class="cv-ed" data-i18n="e4d">Membangun prototipe aplikasi sistem informasi desa berbasis web dalam 24 jam.</div></div>
+        </div>
+        <div class="cv-qb"><div class="cv-qt" data-i18n="cvq">"Teknologi adalah alat — kreativitas adalah jiwa di baliknya. Saya hadir untuk menggabungkan keduanya."</div><div class="cv-qa">— Azahwa Celina Latifa</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><span data-i18n="ft">© 2025 Azahwa Celina Latifa · Dibuat dengan ❤ dari Semarang</span></footer>
+
+<script>
+/* ── i18n ── */
+const T={
+  id:{nh:"Beranda",na:"Tentang",nsk:"Keahlian",np:"Portofolio",nc:"CV",havl:"Tersedia untuk Peluang Baru",htag:"Calon Web Developer & IT Enthusiast\nTertarik pada UI/UX dan Jaringan",hdesc:"Saya adalah siswa SMK yang bersemangat dalam dunia teknologi dan pengembangan web. Saya percaya desain yang baik bukan hanya soal tampilan, tapi tentang pengalaman. Terus belajar, terus berkarya.",t1:"📍 Semarang",t2:"🎓 SMK SIJA",t3:"💻 Web Dev",drag:"↕ Tarik kartu",bw:"Lihat Karya",bc:"Unduh CV",sc:"scroll",lab_a:"001 — Tentang Saya",a_ttl:"Mengenal\nLebih Dekat",a_sub:"Seorang pelajar, desainer, dan pembangun hal-hal digital.",af_t:"Keluarga & Latar",af_p:"Lahir dan besar di Semarang, Jawa Barat. Anak pertama dari dua bersaudara dalam keluarga sederhana yang mengutamakan pendidikan. Ayah saya seorang teknisi — itulah awal ketertarikan saya pada dunia teknis.",ae_t:"Pendidikan",ahob_t:"Hobi & Minat",h1:"Desain grafis & UI/UX exploration",h2:"Membaca artikel teknologi",h3:"Hackathon & lomba IT",h4:"Fotografi urban",h5:"Gitar akustik",ac_t:"Tujuan Karier",ac_p:"Menjadi Full-Stack Developer yang menciptakan solusi digital berdampak, berkontribusi di perusahaan teknologi inovatif sambil terus bertumbuh.",astr_t:"Kelebihan Diri",sft:"SOFT SKILLS",hrd:"HARD SKILLS",ss1:"Cepat Belajar",ss2:"Kreatif",ss3:"Detail-Oriented",ss4:"Kerja Tim",ss5:"Adaptif",ss6:"Komunikatif",skt:"Apa yang\nSaya Kuasai",sksub:"— Keahlian Teknis & Kreatif",pttl:"Karya &\nProyek",ptm1:"4 proyek selesai",ptm2:"2024 – 2025",vp:"Lihat Proyek →",p1t:"Website Sekolah",p1d:"Website profil SMK responsif dengan galeri, berita, dan halaman kontak interaktif.",p2t:"Simulasi Jaringan LAN",p2d:"Simulasi LAN 3 subnet dengan VLAN, routing, dan troubleshooting komprehensif.",p3t:"Brand Identity OSIS",p3d:"Identitas visual lengkap: logo, poster, dan template sosmed untuk OSIS sekolah.",p4t:"Sistem Inventaris",p4d:"Aplikasi manajemen inventaris dengan fitur CRUD, laporan stok, dan UI intuitif.",pcv:"Cetak / PDF",cvr:"SISWA SMK · Sistem Informasi Jaringan dan Aplikasi · CALON WEB DEVELOPER",cvd:"Semarang · 2025",cvct:"Kontak",cvpt:"Data Pribadi",cvdob:"Semarang, 2 Desember 2008",cvre:"Islam",cvci:"Indonesia",cvst:"Keahlian",cvpft:"Profil",cvpf:"Siswa SMK jurusan Sistem Informasi Jaringan dan Aplikasi dengan ketertarikan kuat pada pengembangan web dan desain UI/UX. Berpengalaman dalam pembuatan website, desain grafis, dan konfigurasi jaringan komputer. Termotivasi untuk terus belajar.",cvedt:"Pendidikan",cvext:"Pengalaman & Kegiatan",e1t:"Juara 2 — LKS Web Design Tingkat Kota",e1d:"Meraih juara 2 dalam lomba desain web tingkat kota dengan website company profile responsif.",e2t:"Ketua Divisi IT — OSIS SMK Negeri 4",e2d:"Memimpin tim IT dalam pengelolaan media sosial, dokumentasi, dan konten digital sekolah.",e3t:"PKL — CV Maju Teknologi",e3d:"Maintenance jaringan, troubleshooting hardware, dan pengembangan website internal perusahaan.",e4t:"Peserta Hackathon Youth Tech 2024",e4d:"Membangun prototipe aplikasi sistem informasi desa berbasis web dalam 24 jam.",cvq:'"Teknologi adalah alat — kreativitas adalah jiwa di baliknya. Saya hadir untuk menggabungkan keduanya."',ft:"© 2025 Azahwa Celina Latifa · Dibuat dengan ❤ dari Semarang"},
+  en:{nh:"Home",na:"About",nsk:"Skills",np:"Portfolio",nc:"CV",havl:"Open to New Opportunities",htag:"Aspiring Web Developer & IT Enthusiast\nPassionate about UI/UX and Networking",hdesc:"I'm a vocational high school student passionate about technology and web development. I believe good design isn't just about looks — it's about experience. Always learning, always building.",t1:"📍 Semarang",t2:"🎓 SMK SIJA",t3:"💻 Web Dev",drag:"↕ Drag card",bw:"View Work",bc:"Download CV",sc:"scroll",lab_a:"001 — About Me",a_ttl:"Getting to\nKnow Me",a_sub:"A student, designer, and builder of digital things.",af_t:"Background",af_p:"Born and raised in Semarang, West Java. Eldest of two siblings in a modest family that values education. My father is a technician — the origin of my love for all things technical.",ae_t:"Education",ahob_t:"Hobbies & Interests",h1:"Graphic design & UI/UX exploration",h2:"Reading tech articles",h3:"Hackathons & IT competitions",h4:"Urban photography",h5:"Acoustic guitar",ac_t:"Career Goals",ac_p:"To become a Full-Stack Developer creating impactful digital solutions, contributing to innovative tech companies while continuing to grow.",astr_t:"Personal Strengths",sft:"SOFT SKILLS",hrd:"HARD SKILLS",ss1:"Fast Learner",ss2:"Creative",ss3:"Detail-Oriented",ss4:"Team Player",ss5:"Adaptable",ss6:"Communicative",skt:"What I\nExcel At",sksub:"— Technical & Creative Skills",pttl:"Works &\nProjects",ptm1:"4 projects complete",ptm2:"2024 – 2025",vp:"View Project →",p1t:"School Website",p1d:"Responsive SMK profile website with gallery, news, and interactive contact page.",p2t:"LAN Network Simulation",p2d:"3-subnet LAN simulation with VLAN, routing, and comprehensive troubleshooting.",p3t:"OSIS Brand Identity",p3d:"Full visual identity: logo, posters, and social media templates for student council.",p4t:"Inventory System",p4d:"Inventory management app with CRUD, stock reports, and intuitive UI.",pcv:"Print / PDF",cvr:"STUDENT · COMPUTER & NETWORK ENGINEERING · ASPIRING WEB DEVELOPER",cvd:"Semarang · 2025",cvct:"Contact",cvpt:"Personal Data",cvdob:"Semarang, March 15 2007",cvre:"Islam",cvci:"Indonesian",cvst:"Skills",cvpft:"Profile",cvpf:"Vocational high school student majoring in Computer & Network Engineering with a strong interest in web development and UI/UX design. Experienced in website creation, graphic design, and network configuration. Motivated to keep learning.",cvedt:"Education",cvext:"Experience & Activities",e1t:"2nd Place — City Level Web Design Competition",e1d:"Achieved 2nd place building a responsive, aesthetic company profile website.",e2t:"IT Division Head — Student Council",e2d:"Led IT team in social media management, documentation, and digital content creation.",e3t:"Internship — CV Maju Teknologi",e3d:"Network maintenance, hardware troubleshooting, and internal website development.",e4t:"Participant — Youth Tech 2024 Hackathon",e4d:"Built a prototype web-based village information system in 24 hours.",cvq:'"Technology is the tool — creativity is the soul behind it. I am here to bring both together."',ft:"© 2025 Azahwa Celina Latifa · Made with ❤ from Semarang"}
+};
+let lang='id';
+function applyLang(l){lang=l;document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[l][k])el.innerHTML=T[l][k].replace(/\n/g,'<br>')})}
+document.getElementById('lsel').addEventListener('change',e=>applyLang(e.target.value));
+
+/* ── THEME ── */
+const thT=document.getElementById('thT');
+thT.addEventListener('change',()=>{
+  const d=thT.checked;
+  document.documentElement.setAttribute('data-theme',d?'dark':'light');
+  document.getElementById('tlb').textContent=d?'Dark':'Light';
+  initSkillsCanvas(); initPortfolioCanvas(); drawCVTopo();
+});
+
+/* ── MOBILE MENU ── */
+function toggleMob(){document.getElementById('mm').classList.toggle('open');document.getElementById('hbg').classList.toggle('open')}
+
+/* ── ACTIVE NAV ── */
+const allSecs=document.querySelectorAll('section[id]');
+const navAs=document.querySelectorAll('.nl a,.mm a');
+window.addEventListener('scroll',()=>{let c='';allSecs.forEach(s=>{if(window.scrollY>=s.offsetTop-80)c=s.id});navAs.forEach(a=>a.classList.toggle('act',a.getAttribute('href')==='#'+c))},{passive:true});
+
+/* ════════════════════════════════
+   BG 1: HOME — Animated Particles
+════════════════════════════════ */
+(function(){
+  const cvs=document.getElementById('home-canvas');
+  const ctx=cvs.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight}
+  function isDark(){return document.documentElement.getAttribute('data-theme')==='dark'}
+  function mkPts(){pts=[];const n=Math.min(60,Math.floor(W*H/18000));for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.4,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,o:Math.random()*.5+.2})}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const clr=isDark()?'240,239,232':'17,17,16';
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${clr},${p.o})`;ctx.fill();
+    });
+    // connect nearby
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<100){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(${clr},${.12*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke()}
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{resize();mkPts()},true);
+  resize();mkPts();draw();
+})();
+
+/* ════════════════════════════════
+   BG 2: ABOUT — Floating Paper Sheets
+════════════════════════════════ */
+(function(){
+  const bg=document.getElementById('about-bg');
+  if(!bg)return;
+  const sheets=[];
+  const n=7;
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');
+    d.className='paper-fold';
+    const w=Math.random()*180+80,h=Math.random()*240+100;
+    const x=Math.random()*110-10,y=Math.random()*110-10;
+    const rot=Math.random()*40-20;
+    d.style.cssText=`width:${w}px;height:${h}px;left:${x}%;top:${y}%;transform:rotate(${rot}deg);border:1px solid var(--text);background:var(--bg3);border-radius:2px`;
+    bg.appendChild(d);
+    sheets.push({el:d,x,y,rot,spd:Math.random()*.15+.05,amp:Math.random()*3+1,t:Math.random()*Math.PI*2});
+  }
+  // Add ruled lines effect
+  const liner=document.createElement('div');
+  liner.style.cssText=`position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 27px,var(--border) 28px);opacity:.15;pointer-events:none`;
+  bg.appendChild(liner);
+
+  function animate(){
+    sheets.forEach(s=>{
+      s.t+=s.spd*.01;
+      const dy=Math.sin(s.t)*s.amp;
+      const dr=Math.cos(s.t*.7)*.5;
+      s.el.style.transform=`rotate(${s.rot+dr}deg) translateY(${dy}px)`;
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+/* ════════════════════════════════
+   BG 3: SKILLS — Animated Dot Matrix
+════════════════════════════════ */
+function initSkillsCanvas(){
+  const cvs=document.getElementById('skills-canvas');
+  if(!cvs)return;
+  const ctx=cvs.getContext('2d');
+  let W,H,t=0;
+  function isDark(){return document.documentElement.getAttribute('data-theme')==='dark'}
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const gap=28,clr=isDark()?'240,239,232':'17,17,16';
+    const cols=Math.ceil(W/gap),rows=Math.ceil(H/gap);
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      const x=c*gap+gap/2,y=r*gap+gap/2;
+      const dist=Math.sqrt((x-W/2)**2+(y-H/2)**2);
+      const wave=Math.sin(dist*.02-t*.8)*.5+.5;
+      const radius=wave*2.8+.4;
+      const alpha=wave*.35+.05;
+      ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${clr},${alpha})`;ctx.fill();
+    }
+    t+=.04;requestAnimationFrame(draw);
+  }
+  resize();draw();
+  window.addEventListener('resize',resize,true);
+}
+initSkillsCanvas();
+
+/* ════════════════════════════════
+   BG 4: PORTFOLIO — Aurora / Orbs
+════════════════════════════════ */
+function initPortfolioCanvas(){
+  const cvs=document.getElementById('portfolio-canvas');
+  if(!cvs)return;
+  const ctx=cvs.getContext('2d');
+  let W,H,t=0;
+  function isDark(){return document.documentElement.getAttribute('data-theme')==='dark'}
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight}
+  const orbs=[
+    {x:.2,y:.3,r:.3,spd:.0007},
+    {x:.8,y:.6,r:.35,spd:.0009},
+    {x:.5,y:.8,r:.28,spd:.0006},
+  ];
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    orbs.forEach((o,i)=>{
+      o.x+=Math.sin(t*o.spd+i)*0.0003;
+      o.y+=Math.cos(t*o.spd*1.3+i)*0.0002;
+    });
+    const alpha=isDark()?.06:.04;
+    orbs.forEach(o=>{
+      const grd=ctx.createRadialGradient(o.x*W,o.y*H,0,o.x*W,o.y*H,o.r*Math.min(W,H));
+      grd.addColorStop(0,`rgba(${isDark()?'200,200,190':'80,80,70'},${alpha})`);
+      grd.addColorStop(1,'transparent');
+      ctx.fillStyle=grd;ctx.fillRect(0,0,W,H);
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  resize();draw();
+  window.addEventListener('resize',resize,true);
+}
+initPortfolioCanvas();
+
+/* ════════════════════════════════
+   BG 5: CV — Topographic Lines
+════════════════════════════════ */
+function drawCVTopo(){
+  const svgEl=document.getElementById('cv-svg-bg');
+  if(!svgEl)return;
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  const W=svgEl.clientWidth||1080,H=svgEl.clientHeight||900;
+  const clr=isDark?'rgba(240,239,232,0.06)':'rgba(17,17,16,0.05)';
+  let d='';
+  for(let i=0;i<12;i++){
+    const y0=H*.1+i*(H*.08);
+    const freq=.004+i*.0003,amp=30+i*8;
+    let path=`M0 ${y0}`;
+    for(let x=0;x<=W;x+=8){
+      const y=y0+Math.sin(x*freq+i*1.5)*amp+Math.sin(x*.008+i)*15;
+      path+=` L${x} ${y}`;
+    }
+    d+=`<path d="${path}" fill="none" stroke="${clr}" stroke-width="1.2"/>`;
+  }
+  svgEl.innerHTML=d;
+}
+window.addEventListener('load',drawCVTopo);
+window.addEventListener('resize',drawCVTopo);
+
+/* ════════════════════════════════
+   SCROLL EFFECTS — PARALLAX
+════════════════════════════════ */
+function onScroll(){
+  const sy=window.scrollY;
+
+  // Parallax elements [data-par]
+  document.querySelectorAll('[data-par]').forEach(el=>{
+    const rect=el.getBoundingClientRect();
+    const spd=parseFloat(el.dataset.par)||.2;
+    const offset=(rect.top+rect.height/2-window.innerHeight/2)*spd;
+    el.style.transform=`translateY(${offset}px)`;
+  });
+
+  // Home — paper grid moves slower
+  const homePaper=document.querySelector('.home-paper');
+  if(homePaper)homePaper.style.transform=`translateY(${sy*.3}px)`;
+
+  // About — sheets parallax
+  const aboutSheets=document.querySelectorAll('.paper-fold');
+  aboutSheets.forEach((s,i)=>{
+    const base=parseFloat(s.style.top)||0;
+    s.style.transform=(s.style.transform||'').replace(/translateY\([^)]*\)/,'')+` translateY(${sy*.08*(i%2===0?1:-1)}px)`;
+  });
+
+  // Skills number float
+  const skNum=document.querySelector('.sk-num');
+  if(skNum){
+    const rect=skNum.closest('section').getBoundingClientRect();
+    skNum.style.transform=`translateY(${rect.top*.08}px)`;
+  }
+
+  // Portfolio tiles tilt on scroll
+  const tiles=document.querySelectorAll('.tile');
+  tiles.forEach((t,i)=>{
+    const rect=t.getBoundingClientRect();
+    const pct=(rect.top+rect.height/2-window.innerHeight/2)/window.innerHeight;
+    const dir=i%2===0?1:-1;
+    t.querySelector('.t-ph').style.transform=`translateY(${pct*18*dir}px)`;
+  });
+
+  // CV topo scroll
+  const cvEl=document.getElementById('cv-svg-bg');
+  if(cvEl){const r=cvEl.closest('section').getBoundingClientRect();cvEl.style.transform=`translateY(${r.top*.12}px)`}
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+
+/* ── TILE SPOTLIGHT ── */
+document.querySelectorAll('.tile').forEach(tile=>{
+  const spot=tile.querySelector('.tile-spot');
+  tile.addEventListener('mousemove',e=>{
+    const r=tile.getBoundingClientRect();
+    spot.style.left=(e.clientX-r.left)+'px';
+    spot.style.top=(e.clientY-r.top)+'px';
+  });
+});
+
+/* ── REVEAL ── */
+const rvObs=new IntersectionObserver(ens=>{ens.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.07});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>rvObs.observe(el));
+
+/* ── SKILL BARS ── */
+const sbObs=new IntersectionObserver(ens=>{ens.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.sk-fill').forEach(f=>{f.style.transform=`scaleX(${f.dataset.w||.5})`;f.classList.add('on')})}})},{threshold:.2});
+document.querySelectorAll('.sk-group').forEach(g=>sbObs.observe(g));
+
+/* ── LANYARD PHYSICS ── */
+(function(){
+  const card=document.getElementById('lCard');
+  const rope=document.getElementById('lRope');
+  if(!card)return;
+  let drag=false,sy=0,posY=0,velY=0,rot=0,lastY=0,swT=0;
+  const maxS=20,damp=.87,stiff=.11;
+  function lerp(a,b,t){return a+(b-a)*t}
+  function step(){
+    if(!drag){velY+=(-posY)*stiff;velY*=damp;posY+=velY;rot=lerp(rot,0,.07)+velY*.35;rot=Math.max(-maxS,Math.min(maxS,rot))}
+    card.style.transform=`translateY(${posY}px) rotate(${rot}deg)`;
+    rope.style.transform=`rotate(${rot*.28}deg)`;
+    requestAnimationFrame(step);
+  }
+  function down(e){drag=true;card.style.cursor='grabbing';sy=e.touches?e.touches[0].clientY:e.clientY;lastY=sy}
+  function move(e){if(!drag)return;const cy=e.touches?e.touches[0].clientY:e.clientY;velY=cy-lastY;lastY=cy;posY=Math.max(-60,Math.min(130,cy-sy));rot=posY*.14}
+  function up(){drag=false;card.style.cursor='grab'}
+  card.addEventListener('mousedown',down);card.addEventListener('touchstart',down,{passive:true});
+  window.addEventListener('mousemove',move);window.addEventListener('touchmove',move,{passive:true});
+  window.addEventListener('mouseup',up);window.addEventListener('touchend',up);
+  function idle(){swT+=.012;if(!drag&&Math.abs(posY)<2&&Math.abs(velY)<.2){card.style.transform=`translateY(${Math.sin(swT)*1.4}px) rotate(${Math.sin(swT)*.7}deg)`;rope.style.transform=`rotate(${Math.sin(swT)*.18}deg)`}requestAnimationFrame(idle)}
+  requestAnimationFrame(step);requestAnimationFrame(idle);
+})();
+</script>
+</body>
+</html>
