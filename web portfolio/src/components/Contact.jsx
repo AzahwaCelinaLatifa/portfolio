@@ -45,10 +45,10 @@ const Contact = ({ scrollProgress = 0 }) => {
 
         <div className="max-w-[1100px] mx-auto px-6 md:px-10 pt-24 md:pt-32 pb-16 relative z-10">
           
-          {/* LET'S TALK Header (Font Inspiration diubah ke Soft Gold #D9C5A0) */}
+          {/* LET'S TALK Header (Font Inspiration diubah ke Krem #EBE6E0) */}
           <div className="flex justify-between items-start mb-16 md:mb-20">
             <h2 className="text-[clamp(30px,5vw,65px)] font-normal tracking-tighter leading-none">
-              <span className="accent-font italic pr-2 text-[#D9C5A0]">LE</span>T'S <span className="accent-font italic pr-2 text-[#D9C5A0]">TA</span>LK
+              <span className="accent-font italic pr-2 text-[#EBE6E0]">LE</span>T'S <span className="accent-font italic pr-2 text-[#EBE6E0]">TA</span>LK
             </h2>
             <img src={arrowIcon} alt="Arrow" className="w-8 h-8 md:w-12 md:h-12 mt-1 md:mt-2 shrink-0 brightness-0 invert opacity-90" draggable={false} />
           </div>
@@ -122,9 +122,9 @@ const Contact = ({ scrollProgress = 0 }) => {
         <footer 
           className="relative text-white px-6 md:px-10 pt-16 pb-0 overflow-hidden"
           style={{
-            // Radial glow di bagian bawah + noise
+            // Radial glow disesuaikan dengan warna krem RGB (235, 230, 224)
             background: `
-              radial-gradient(circle at 50% 120%, rgba(217, 197, 160, 0.08) 0%, #050505 60%),
+              radial-gradient(circle at 50% 120%, rgba(235, 230, 224, 0.08) 0%, #050505 60%),
               url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")
             `
           }}
@@ -151,7 +151,8 @@ const Contact = ({ scrollProgress = 0 }) => {
                     { key: 'CONTACT', idLabel: 'KONTAK' }
                   ].map((item, idx) => (
                     <a key={item.key} href={`#${item.key.toLowerCase()}`}
-                      className="block text-[12px] tracking-[0.08em] text-[rgba(255,255,255,.7)] no-underline hover:text-[#D9C5A0] transition-colors w-fit font-normal">
+                      // FIX: Hover diubah ke warna krem
+                      className="block text-[12px] tracking-[0.08em] text-[rgba(255,255,255,.7)] no-underline hover:text-[#EBE6E0] transition-colors w-fit font-normal">
                       <ScrambledText radius={60} duration={0.6} speed={0.5}>&gt; 00{idx + 1}_{lang === 'id' ? item.idLabel : item.key}</ScrambledText>
                     </a>
                   ))}
@@ -161,14 +162,14 @@ const Contact = ({ scrollProgress = 0 }) => {
               <div className="md:text-right">
                 <h4 className="text-[11px] font-normal tracking-[0.1em] uppercase mb-6 text-[rgba(255,255,255,.4)]">{lang === 'id' ? 'SOSIAL' : 'SOCIAL'}</h4>
                 <div className="flex flex-col md:items-end gap-2">
-                  {/* UPDATE LINK SOSMED DI SINI */}
                   {[
                     { name: 'GITHUB', url: 'https://github.com/AzahwaCelinaLatifa' },
                     { name: 'INSTAGRAM', url: 'https://www.instagram.com/zhwcel?igsh=MnIxMnd2cXV5eTR4' },
                     { name: 'TWITTER/X', url: 'https://twitter.com/mikueischt' },
                   ].map(s => (
                     <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer"
-                      className="block text-[12px] tracking-[0.08em] text-[rgba(255,255,255,.7)] no-underline hover:text-[#D9C5A0] transition-colors w-fit font-normal">
+                      // FIX: Hover diubah ke warna krem
+                      className="block text-[12px] tracking-[0.08em] text-[rgba(255,255,255,.7)] no-underline hover:text-[#EBE6E0] transition-colors w-fit font-normal">
                       <ScrambledText radius={60} duration={0.6} speed={0.5}>&gt; {s.name}</ScrambledText>
                     </a>
                   ))}
@@ -197,10 +198,10 @@ const Contact = ({ scrollProgress = 0 }) => {
               </div>
             </div>
 
-            {/* Massive cropped name at very bottom (Font Inspiration diubah ke Soft Gold #D9C5A0) */}
+            {/* Massive cropped name at very bottom (Font Inspiration diubah ke Krem #EBE6E0) */}
             <div className="w-full overflow-hidden flex justify-center items-start h-[clamp(18px,3.5vw,48px)] mt-6 relative z-10">
               <div className="text-[clamp(24px,5.5vw,90px)] font-normal tracking-tighter leading-[0.8] text-white whitespace-nowrap opacity-90 select-none">
-                AZAHWA <span className="accent-font italic pr-1 text-[#D9C5A0]">CEL</span>INA LATIFA
+                AZAHWA <span className="accent-font italic pr-1 text-[#EBE6E0]">CEL</span>INA LATIFA
               </div>
             </div>
 

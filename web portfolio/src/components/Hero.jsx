@@ -6,17 +6,44 @@ import ScrambledText from './ScrambledText';
 const Hero = () => {
   const { lang, setLang } = useThemeLang(); // Memastikan setLang ada untuk mengubah bahasa saat diklik
   const [time, setTime] = useState(new Date());
+  const [typedText, setTypedText] = useState('');
+
+  const consoleText = 'console.log("HELLO WORLD!");';
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
+  // Efek mengetik untuk console.log
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setTypedText(consoleText.slice(0, index + 1));
+      index++;
+      if (index >= consoleText.length) {
+        clearInterval(interval);
+      }
+    }, 100); // Kecepatan mengetik (100ms per karakter)
+    return () => clearInterval(interval);
+  }, []);
+
   const formatTime = (d) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
 
   return (
-    // min-h-screen biar lega, mb-24 & pb-20 buat space kosong sebelum masuk menu About
-    <section id="home" className="relative min-h-screen overflow-hidden flex flex-col justify-between pt-32 pb-20 mb-24" style={{ background: 'var(--bg)' }}>
+    // FIX: mb-24 dihapus sepenuhnya agar tidak ada space kosong di bawah pagenya
+    <section id="home" className="relative min-h-screen overflow-hidden flex flex-col justify-between pt-32 pb-20" style={{ background: 'var(--bg)' }}>
+      
+      {/* Style lokal khusus untuk kursor ketikan agar berkedip tegas (bukan fade out) */}
+      <style>{`
+        @keyframes blink-cursor {
+          50% { opacity: 0; }
+        }
+        .typewriter-cursor {
+          animation: blink-cursor 0.8s step-end infinite;
+        }
+      `}</style>
+
       {/* Grid background */}
       <div className="absolute inset-0 z-0 pointer-events-none" style={{
         backgroundImage: 'linear-gradient(rgba(17,17,16,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(17,17,16,.04) 1px, transparent 1px)',
@@ -42,12 +69,15 @@ const Hero = () => {
               {lang === 'id' ? 'TERBUKA UNTUK PELUANG BARU' : 'OPEN TO NEW OPPORTUNITIES'}
             </span>
             
-            <div style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[14px] md:text-[18px] font-normal text-black/90">
-              console.log("HELLO WORLD!");
+            {/* Console log dengan efek animasi mengetik dan kursor ketikan */}
+            <div style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[14px] md:text-[18px] font-normal text-black/90 flex items-center min-h-[28px]">
+              <span>{typedText}</span>
+              <span className="inline-block w-[2px] h-[15px] md:h-[18px] bg-black ml-1 typewriter-cursor" />
             </div>
             
             <h1 className="text-[clamp(32px,4vw,48px)] font-normal leading-[1.1] tracking-tight">
-              <span className="text-black/30 font-normal">I'M</span> AZAHWA <span className="accent-font italic">CEL</span>INA LATIFA
+              {/* FIX: Warna krem pada font aksen */}
+              <span className="text-black/30 font-normal">I'M</span> AZAHWA <span className="accent-font italic text-[#EBE6E0]">CEL</span>INA LATIFA
             </h1>
             
             <p style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[11px] md:text-[13px] tracking-[0.12em] leading-[2] uppercase max-w-[500px] text-black/80">
@@ -78,7 +108,8 @@ const Hero = () => {
         </div>
 
         {/* Bottom paragraph */}
-        <div style={{ fontFamily: "'Geist Mono', monospace" }} className="w-full max-w-[750px] mt-20 md:mt-32 text-[12px] md:text-[15px] tracking-[0.08em] leading-[2] uppercase font-medium text-black/90">
+        {/* FIX: font-medium diubah menjadi font-normal agar tidak bold */}
+        <div style={{ fontFamily: "'Geist Mono', monospace" }} className="w-full max-w-[750px] mt-20 md:mt-32 text-[12px] md:text-[15px] tracking-[0.08em] leading-[2] uppercase font-normal text-black/90">
           {lang === 'id' 
             ? 'SANGAT BERSEMANGAT DALAM MEMBANGUN APLIKASI WEB DARI AWAL HINGGA AKHIR. TERUS MENGEKSPLORASI ESTETIKA FRONTEND DAN LOGIKA BACKEND UNTUK MENJADI PENGEMBANG FULLSTACK YANG HANDAL.'
             : 'PASSIONATE ABOUT BUILDING END-TO-END WEB APPLICATIONS. CONSTANTLY EXPLORING BOTH FRONTEND AESTHETICS AND BACKEND LOGIC TO BECOME A RELIABLE FULLSTACK DEVELOPER.'
@@ -98,7 +129,6 @@ const Hero = () => {
           </button>
           <span className="opacity-60">[ {formatTime(time)} ]</span>
         </div>
-        {/* Sisi kanan dikosongkan karena scroll progress sudah dihapus */}
         <div></div>
       </div>
     </section>

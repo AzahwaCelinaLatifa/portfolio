@@ -7,10 +7,10 @@ const CV = () => {
   const { lang } = useThemeLang();
 
   return (
-    // SECTION BACKGROUND
+    // FIX: py-12 md:py-24 diubah dan dipecah menjadi padding atas/bawah & margin bawah agar jaraknya pas
     <section 
       id="cv" 
-      className="relative flex flex-col justify-center items-center min-h-screen py-12 md:py-24 px-4 md:px-8 font-['Geist_Mono'] font-normal overflow-hidden" 
+      className="relative flex flex-col justify-center items-center min-h-screen pt-12 md:pt-16 pb-16 md:pb-20 mb-12 md:mb-16 px-4 md:px-8 font-['Geist_Mono'] font-normal overflow-hidden" 
       style={{ 
         backgroundColor: '#D4D4D4',
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.35'/%3E%3C/svg%3E")`,

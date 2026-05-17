@@ -16,6 +16,7 @@ function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [activeView, setActiveView] = useState('main'); // 'main' | 'project-detail'
+  const [selectedCategory, setSelectedCategory] = useState('CODE'); 
 
   // Scroll-based navbar hide/show
   useEffect(() => {
@@ -41,22 +42,28 @@ function App() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // Initialize
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Reveal-on-scroll observer
+  // PERBAIKAN BUG SKILLS HILANG: Observer sekarang memantau [activeView]
   useEffect(() => {
     const rvObs = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) e.target.classList.add('in');
       });
     }, { threshold: 0.07 });
-    document.querySelectorAll('.rv, .rv-l, .rv-r').forEach((el) => rvObs.observe(el));
+
+    // Cuma jalankan observer kalau kita lagi di halaman utama
+    if (activeView === 'main') {
+      // Pake setTimeout kecil biar DOM sempet ke-render sebelum di-observe
+      setTimeout(() => {
+        document.querySelectorAll('.rv, .rv-l, .rv-r').forEach((el) => rvObs.observe(el));
+      }, 100);
+    }
 
     return () => rvObs.disconnect();
-  }, []);
+  }, [activeView]);
 
   const handleNavClick = () => {
     setIsMobileMenuOpen(false);
@@ -81,7 +88,8 @@ function App() {
           <Hero scrollProgress={scrollProgress} />
           <About />
           <Skills />
-          <Projects onProjectClick={() => {
+          <Projects onProjectClick={(categoryName) => {
+            setSelectedCategory(categoryName);
             window.scrollTo({ top: 0, behavior: 'auto' });
             setActiveView('project-detail');
           }} />
@@ -89,7 +97,19 @@ function App() {
           <Contact scrollProgress={scrollProgress} />
         </main>
       ) : (
-        <ProjectDetailView onClose={() => setActiveView('main')} />
+        <ProjectDetailView 
+          category={selectedCategory} 
+          onClose={() => {
+            setActiveView('main');
+            // PERBAIKAN BREADCRUMB: Balik langsung ke elemen id="projects"
+            setTimeout(() => {
+              const projectsEl = document.getElementById('projects');
+              if (projectsEl) {
+                projectsEl.scrollIntoView({ behavior: 'auto' });
+              }
+            }, 50);
+          }} 
+        />
       )}
 
       {/* Scroll Percentage - Fixed */}

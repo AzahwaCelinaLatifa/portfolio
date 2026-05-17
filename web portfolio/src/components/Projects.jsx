@@ -5,14 +5,14 @@ import { useThemeLang } from '../context/ThemeLangContext';
 const Projects = ({ onProjectClick }) => {
   const { lang } = useThemeLang();
   
+  // Kita simpan array ini di luar biar gampang dipanggil
+  const categoryList = ['DESIGN', 'NETWORK', 'CODE'];
+  
   return (
-    <section id="projects" className="relative w-full min-h-screen py-24 md:py-32 px-6 md:px-10 flex flex-col items-center justify-center bg-white text-black font-normal overflow-hidden">
+    // FIX: Margin dan padding atas-bawah dikurangi biar lebih pas
+    <section id="projects" className="relative w-full min-h-screen pt-12 md:pt-16 pb-16 mb-12 md:mb-16 px-6 md:px-10 flex flex-col items-center justify-center bg-white text-black font-normal overflow-hidden">
       
-      {/* BACKGROUND BARU: Faint Spotlight Biru Pucat
-          Warna Biru Pucat (rgb(227, 242, 253)) dengan opasitas sangat tipis (0.05).
-          Ini memberikan kontras segar terhadap warna krem, mencegah putihnya "menguning",
-          dan membuat foldernya lebih menonjol ke depan.
-      */}
+      {/* Background Spotlight Biru Pucat */}
       <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,rgba(227,242,253,0.05)_0%,transparent_65%)]" />
 
       <div className="max-w-[1100px] mx-auto w-full flex flex-col items-center justify-center relative z-10">
@@ -23,20 +23,27 @@ const Projects = ({ onProjectClick }) => {
             {lang === 'id' ? 'APA YANG TELAH SAYA BANGUN' : 'WHAT I HAVE BUILT'}
           </div>
           <h2 className="text-[clamp(30px,5vw,65px)] font-normal tracking-tighter leading-none">
-            {/* Warna disamakan dengan warna krem yang digunakan di Resume/CV (#EBE6E0) */}
             <span className="accent-font italic pr-2 text-[#EBE6E0]">PRO</span>JECT<span className="accent-font italic pl-1 text-[#EBE6E0]">S</span>
           </h2>
         </div>
 
         {/* Center: Folder Interactive Component */}
-        {/* Geist Mono nurun dari pembungkus div ini */}
+        {/* Catatan: Jarak folder ke teks atas (mt) tetap dipertahankan agar tidak menabrak */}
         <div className="relative z-10 flex justify-center w-full mt-[120px] md:mt-[160px] font-['Geist_Mono',_monospace]">
           <Folder 
             color="#808080" 
             size={2.8} 
-            items={['DESIGN', 'NETWORK', 'CODE']} 
-            onPaperClick={(index) => {
-              if (onProjectClick) onProjectClick(index);
+            items={categoryList} 
+            onPaperClick={(val) => {
+              // MENCEGAH ERROR: Memastikan format yang dikirim ke atas PASTI string huruf besar
+              let safeCategory = 'CODE'; // default
+              if (typeof val === 'number') {
+                safeCategory = categoryList[val];
+              } else if (typeof val === 'string') {
+                safeCategory = val.toUpperCase();
+              }
+              
+              if (onProjectClick) onProjectClick(safeCategory);
             }}
           />
         </div>

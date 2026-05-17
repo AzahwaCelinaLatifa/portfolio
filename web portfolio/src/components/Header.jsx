@@ -23,7 +23,8 @@ const Header = ({ isVisible, onOpenMobileMenu }) => {
         {/* Left: ACEL* Logo */}
         <a href="#home" className="flex items-center no-underline text-inherit pointer-events-auto">
           <span className="text-2xl font-normal tracking-tight" style={{ fontFamily: "'Geist Mono', monospace" }}>
-            A<span className="accent-font">CEL</span>
+            {/* FIX: Font inspiration (CEL) diubah warnanya ke krem #EBE6E0 */}
+            A<span className="accent-font" style={{ color: '#EBE6E0' }}>CEL</span>
           </span>
           {/* Bintang dinaikkan sedikit ke atas */}
           <img src={starLogo} alt="star" className="w-[18px] h-[18px] ml-1 transform -translate-y-1.5 object-contain" style={{ animation: 'spin 5s linear infinite' }} />
