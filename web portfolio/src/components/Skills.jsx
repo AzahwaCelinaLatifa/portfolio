@@ -1,145 +1,154 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useThemeLang } from '../context/ThemeLangContext';
+import LogoLoop from './LogoLoop'; 
+import { VscVscode } from 'react-icons/vsc'; 
+import { 
+  SiGithub, 
+  SiSupabase, 
+  SiFigma, 
+  SiVirtualbox, 
+  SiCanva, 
+  SiCisco 
+} from 'react-icons/si';
 
-const Skills = () => {
-  const { t, isDark } = useThemeLang();
-  const canvasRef = useRef(null);
+const SkillItem = ({ name, pct, inView }) => {
+  const fillWidth = inView ? pct : '0%';
+  const targetNumber = parseInt(pct.replace('%', ''), 10);
+  const [currentNumber, setCurrentNumber] = useState(0);
 
-  // Canvas Animation
   useEffect(() => {
-    const cvs = canvasRef.current;
-    if (!cvs) return;
-    const ctx = cvs.getContext('2d');
-    let W, H, t_time = 0, animationId;
+    // Kalau belum kelihatan di layar, reset ke 0
+    if (!inView) {
+      setCurrentNumber(0);
+      return;
+    }
 
-    const resize = () => {
-      W = cvs.width = cvs.offsetWidth;
-      H = cvs.height = cvs.offsetHeight;
-    };
+    let startTimestamp = null;
+    const duration = 1200; // 1.2 detik, sama dengan transisi CSS garisnya
 
-    const draw = () => {
-      ctx.clearRect(0, 0, W, H);
-      const gap = 28, clr = isDark ? '240,239,232' : '17,17,16';
-      const cols = Math.ceil(W / gap), rows = Math.ceil(H / gap);
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
       
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const x = c * gap + gap / 2, y = r * gap + gap / 2;
-          const dist = Math.sqrt((x - W / 2) ** 2 + (y - H / 2) ** 2);
-          const wave = Math.sin(dist * .02 - t_time * .8) * .5 + .5;
-          const radius = wave * 2.8 + .4;
-          const alpha = wave * .35 + .05;
-          ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${clr},${alpha})`; ctx.fill();
-        }
+      // Rumus easeOutCubic biar angkanya melambat di akhir, pas dengan garisnya
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(easeOut * targetNumber);
+      
+      setCurrentNumber(current);
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      } else {
+        setCurrentNumber(targetNumber);
       }
-      t_time += .04;
-      animationId = requestAnimationFrame(draw);
     };
 
-    resize(); draw();
-    window.addEventListener('resize', resize, true);
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize, true);
-    };
-  }, [isDark]);
+    window.requestAnimationFrame(step);
+  }, [inView, targetNumber]);
 
   return (
-    <section id="skills" className="relative overflow-hidden min-h-screen pt-[52px] bg-bg print:hidden">
-      <canvas ref={canvasRef} id="skills-canvas" className={`absolute inset-0 z-0 pointer-events-none ${isDark ? 'opacity-20' : 'opacity-[0.35]'}`}></canvas>
-      
-      <div className="relative z-[2] max-w-[1080px] mx-auto px-8 pt-28 pb-24">
+    <div className="mb-4">
+      <div className="text-[11px] tracking-[0.08em] font-normal uppercase mb-1.5">{name}</div>
+      <div className="flex items-center gap-2">
+        {/* Mengubah h-[1px] menjadi h-[2px] untuk semua garis agar tebalnya sama dan konsisten */}
+        <div className="flex-1 h-[2px] bg-[rgba(17,17,16,.12)] relative">
+          <div 
+            className="absolute top-0 left-0 h-full bg-[#111110] transition-[width] duration-[1200ms] ease-out" 
+            style={{ width: fillWidth }} 
+          />
+        </div>
+        <span 
+          className="text-[11px] tracking-[0.1em] text-[#888880] min-w-[40px] text-right" 
+          style={{ fontFamily: "'Geist Mono', monospace" }}
+        >
+          {String(currentNumber).padStart(3, '0')}%
+        </span>
+      </div>
+    </div>
+  );
+};
+
+const techLogos = [
+  { node: <SiGithub className="w-full h-full text-[#888880] transition-colors duration-300 hover:text-[#111110]" />, title: "GitHub" },
+  { node: <VscVscode className="w-full h-full text-[#888880] transition-colors duration-300 hover:text-[#111110]" />, title: "VS Code" },
+  { node: <SiSupabase className="w-full h-full text-[#888880] transition-colors duration-300 hover:text-[#111110]" />, title: "Supabase" },
+  { node: <SiFigma className="w-full h-full text-[#888880] transition-colors duration-300 hover:text-[#111110]" />, title: "Figma" },
+  { node: <SiVirtualbox className="w-full h-full text-[#888880] transition-colors duration-300 hover:text-[#111110]" />, title: "VirtualBox" },
+  { node: <SiCanva className="w-full h-full text-[#888880] transition-colors duration-300 hover:text-[#111110]" />, title: "Canva" },
+  { node: <SiCisco className="w-full h-full text-[#888880] transition-colors duration-300 hover:text-[#111110]" />, title: "Cisco Packet Tracer" },
+];
+
+const Skills = () => {
+  const sectionRef = useRef(null);
+  const [inView, setInView] = useState(false);
+  const { lang } = useThemeLang();
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold: 0.15 }
+    );
+    if (sectionRef.current) obs.observe(sectionRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section id="skills" ref={sectionRef} className="relative w-full lg:h-[100vh] lg:overflow-hidden min-h-screen flex flex-col justify-center py-20 px-6 md:px-10" style={{ background: 'var(--bg)' }}>
+      <div className="max-w-[1100px] mx-auto w-full">
         
-        <div className="flex items-baseline gap-8 mb-16 rv">
-          <div className="font-bebas text-[clamp(70px,12vw,140px)] leading-[0.9] text-border tracking-[-2px] transition-colors duration-350 par" data-par="0.3">02</div>
-          <div>
-            <div className="font-epilogue text-[clamp(22px,4vw,40px)] font-bold leading-[1.1] text-text tracking-[-1px]">{t('skt')}</div>
-            <div className="font-dm text-[10px] text-text3 tracking-[.15em] mt-[0.4rem]">{t('sksub')}</div>
+        <div className="flex justify-end mb-16 rv">
+          <div className="text-right">
+            <h2 className="text-[clamp(32px,5vw,60px)] font-normal tracking-tight leading-[0.95] mb-2">
+              <span className="accent-font">S</span>KI<span className="accent-font">LL</span>S
+            </h2>
+            <span className="text-[11px] tracking-[0.15em] uppercase text-[#888880]" style={{ fontFamily: "'Geist Mono', monospace" }}>
+              {lang === 'id' ? 'DI BIDANG APA SAYA UNGGUL' : 'WHAT I EXCEL AT'}
+            </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-16 relative z-[1]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           
-          <div className="rv-l sk-group">
-            <div className="mb-12">
-              <div className="font-bebas text-[26px] tracking-[2px] text-text3 mb-6 border-l-[3px] border-sv2 pl-3">WEB</div>
-              {[
-                { n: 'HTML5 & CSS3', p: '85%' },
-                { n: 'JavaScript', p: '60%' },
-                { n: 'Responsive Design', p: '78%' },
-                { n: 'Bootstrap / Tailwind', p: '52%' },
-                { n: 'PHP & MySQL', p: '45%' },
-              ].map(skill => (
-                <div key={skill.n} className="mb-5">
-                  <div className="flex justify-between items-baseline mb-[6px]">
-                    <span className="text-[13px] text-text font-semibold">{skill.n}</span>
-                    <span className="font-dm text-[10px] text-text3">{skill.p}</span>
-                  </div>
-                  <div className="h-[3px] bg-border rounded-[2px] overflow-visible relative">
-                    <div 
-                      className="h-full rounded-[2px] bg-[linear-gradient(90deg,var(--sv2),var(--sv3),var(--sv2))] origin-left scale-x-0 transition-transform duration-[1.4s] ease-custom shadow-[0_0_8px_rgba(160,160,150,.4)] relative sk-fill after:content-[''] after:absolute after:-right-[3px] after:top-1/2 after:-translate-y-1/2 after:w-2 after:h-2 after:rounded-full after:bg-svg-grad2 after:border after:border-sv2 after:shadow-[0_0_6px_rgba(180,180,160,.6)]" 
-                      data-w={parseInt(skill.p)/100}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mb-12">
-              <div className="font-bebas text-[26px] tracking-[2px] text-text3 mb-6 border-l-[3px] border-sv2 pl-3">NETWORK</div>
-              {[
-                { n: 'Cisco Packet Tracer', p: '80%' },
-                { n: 'TCP/IP & Subnetting', p: '72%' },
-                { n: 'Router / Switch Config', p: '65%' },
-              ].map(skill => (
-                <div key={skill.n} className="mb-5">
-                  <div className="flex justify-between items-baseline mb-[6px]">
-                    <span className="text-[13px] text-text font-semibold">{skill.n}</span>
-                    <span className="font-dm text-[10px] text-text3">{skill.p}</span>
-                  </div>
-                  <div className="h-[3px] bg-border rounded-[2px] overflow-visible relative">
-                    <div className="h-full rounded-[2px] bg-[linear-gradient(90deg,var(--sv2),var(--sv3),var(--sv2))] origin-left scale-x-0 transition-transform duration-[1.4s] ease-custom shadow-[0_0_8px_rgba(160,160,150,.4)] relative sk-fill after:content-[''] after:absolute after:-right-[3px] after:top-1/2 after:-translate-y-1/2 after:w-2 after:h-2 after:rounded-full after:bg-svg-grad2 after:border after:border-sv2 after:shadow-[0_0_6px_rgba(180,180,160,.6)]" data-w={parseInt(skill.p)/100}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="rv-l">
+            <h3 className="text-[13px] font-normal tracking-[0.1em] uppercase mb-6 pb-2 border-b border-[rgba(17,17,16,.12)]">WEB</h3>
+            <SkillItem name="HTML & CSS" pct="85%" inView={inView} />
+            <SkillItem name="JAVASCRIPT" pct="60%" inView={inView} />
+            <SkillItem name="REACT.JS" pct="52%" inView={inView} />
+            <SkillItem name="BOOTSTRAP / TAILWIND" pct="55%" inView={inView} />
+            <SkillItem name="SUPABASE (BAAS)" pct="40%" inView={inView} />
           </div>
 
-          <div className="rv-r sk-group">
-            <div className="mb-12">
-              <div className="font-bebas text-[26px] tracking-[2px] text-text3 mb-6 border-l-[3px] border-sv2 pl-3">DESIGN</div>
-              {[
-                { n: 'Canva', p: '92%' },
-                { n: 'Adobe Photoshop', p: '63%' },
-                { n: 'Figma (Dasar)', p: '45%' },
-                { n: 'Adobe Premiere', p: '55%' },
-              ].map(skill => (
-                <div key={skill.n} className="mb-5">
-                  <div className="flex justify-between items-baseline mb-[6px]">
-                    <span className="text-[13px] text-text font-semibold">{skill.n}</span>
-                    <span className="font-dm text-[10px] text-text3">{skill.p}</span>
-                  </div>
-                  <div className="h-[3px] bg-border rounded-[2px] overflow-visible relative">
-                    <div className="h-full rounded-[2px] bg-[linear-gradient(90deg,var(--sv2),var(--sv3),var(--sv2))] origin-left scale-x-0 transition-transform duration-[1.4s] ease-custom shadow-[0_0_8px_rgba(160,160,150,.4)] relative sk-fill after:content-[''] after:absolute after:-right-[3px] after:top-1/2 after:-translate-y-1/2 after:w-2 after:h-2 after:rounded-full after:bg-svg-grad2 after:border after:border-sv2 after:shadow-[0_0_6px_rgba(180,180,160,.6)]" data-w={parseInt(skill.p)/100}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="rv">
+            <h3 className="text-[13px] font-normal tracking-[0.1em] uppercase mb-6 pb-2 border-b border-[rgba(17,17,16,.12)]">DESIGN</h3>
+            <SkillItem name="CANVA" pct="92%" inView={inView} />
+            <SkillItem name="FIGMA" pct="45%" inView={inView} />
+            <SkillItem name="ADOBE PHOTOSHOP" pct="63%" inView={inView} />
+            <SkillItem name="ADOBE PREMIERE" pct="55%" inView={inView} />
+          </div>
 
-            <div className="mb-12">
-              <div className="font-bebas text-[26px] tracking-[2px] text-text3 mb-6 border-l-[3px] border-sv2 pl-3">TOOLS</div>
-              <div className="flex flex-wrap gap-[7px] mt-3">
-                {['Git & GitHub', 'VS Code', 'Linux Ubuntu', 'Microsoft Office', 'WordPress', 'Wireshark', 'VirtualBox', 'XAMPP'].map(tool => (
-                  <div key={tool} className="font-dm text-[10px] tracking-[.05em] py-[6px] px-[13px] rounded-[4px] border border-border text-text2 bg-card transition-all duration-200 cursor-default relative overflow-hidden group hover:text-text hover:border-sv2 hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(0,0,0,.1)]">
-                    <span className="absolute inset-0 bg-svg-grad opacity-0 transition-opacity duration-200 group-hover:opacity-100 before:content-['']"></span>
-                    <span className="relative z-[1]">{tool}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="rv">
+            <h3 className="text-[13px] font-normal tracking-[0.1em] uppercase mb-6 pb-2 border-b border-[rgba(17,17,16,.12)]">NETWORK</h3>
+            <SkillItem name="CISCO PACKET TRACER" pct="80%" inView={inView} />
+            <SkillItem name="TCP/IP & SUBNETTING" pct="72%" inView={inView} />
+            <SkillItem name="ROUTER / SWITCH CONFIG" pct="65%" inView={inView} />
+          </div>
+
+          <div className="rv-r">
+            <h3 className="text-[13px] font-normal tracking-[0.1em] uppercase mb-6 pb-2 border-b border-[rgba(17,17,16,.12)]">TOOLS</h3>
+            <div className="w-full relative mt-4 pt-2 overflow-hidden h-[60px]">
+              <LogoLoop
+                logos={techLogos}
+                speed={40}
+                direction="left"
+                logoHeight={28}
+                gap={36}
+                hoverSpeed={0}
+                scaleOnHover={true}
+                fadeOut={false}
+                ariaLabel="Technology stack tools"
+              />
             </div>
           </div>
-          
         </div>
       </div>
     </section>

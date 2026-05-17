@@ -1,138 +1,147 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useThemeLang } from '../context/ThemeLangContext';
 
+const AboutCard = ({ num, dots, title, isJustify, children }) => (
+  <div className="group w-full border border-[rgba(17,17,16,.2)] bg-transparent flex flex-col mb-8 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:bg-[#111110] hover:border-[#111110] hover:shadow-2xl cursor-default">
+    <div className="border-b border-[rgba(17,17,16,.2)] p-2.5 flex gap-1.5 px-4 transition-colors duration-500 group-hover:border-[rgba(255,255,255,0.15)]">
+      {Array.from({ length: dots }).map((_, i) => (
+        <div key={i} className="w-[6px] h-[6px] rounded-full bg-[#888880] transition-colors duration-500 group-hover:bg-white" />
+      ))}
+    </div>
+    <div className="p-6 md:p-8 flex flex-col">
+      <span className="text-[11px] font-normal tracking-[0.1em] mb-8 text-[#111110] transition-colors duration-500 group-hover:text-white" style={{ fontFamily: "'Geist Mono', monospace" }}>
+        {num}
+      </span>
+      <span className="text-[11px] font-normal tracking-[0.1em] uppercase mb-6 text-[#111110] transition-colors duration-500 group-hover:text-white" style={{ fontFamily: "'Geist Mono', monospace" }}>
+        {title}
+      </span>
+      <div className={`text-[10px] tracking-[0.08em] leading-[2.2] uppercase text-[#666] font-normal transition-colors duration-500 group-hover:text-gray-300 ${isJustify ? 'text-justify' : 'text-left'}`} style={{ fontFamily: "'Geist Mono', monospace" }}>
+        {children}
+      </div>
+    </div>
+  </div>
+);
+
+const SkillTag = ({ text }) => (
+  <div 
+    className="group flex items-center justify-center px-4 py-1.5 border border-[rgba(17,17,16,.3)] rounded-full transition-all duration-300 ease-out hover:scale-110 hover:bg-black hover:border-black cursor-default whitespace-nowrap bg-transparent"
+  >
+    <span 
+      className="text-black/50 text-[10px] tracking-[0.1em] uppercase font-normal transition-colors duration-300 group-hover:text-white" 
+      style={{ fontFamily: "'Geist Mono', monospace" }}
+    >
+      {text}
+    </span>
+  </div>
+);
+
 const About = () => {
-  const {} = useThemeLang();
-
-  useEffect(() => {
-    const bg = document.getElementById('about-bg');
-    if (!bg) return;
-
-    bg.innerHTML = '';
-
-    const sheets = [];
-    const n = 7;
-    for (let i = 0; i < n; i++) {
-      const d = document.createElement('div');
-      d.className = 'paper-fold';
-      const w = Math.random() * 180 + 80, h = Math.random() * 240 + 100;
-      const x = Math.random() * 110 - 10, y = Math.random() * 110 - 10;
-      const rot = Math.random() * 40 - 20;
-      d.style.cssText = `position:absolute;border-radius:2px;opacity:0.06;pointer-events:none;width:${w}px;height:${h}px;left:${x}%;top:${y}%;transform:rotate(${rot}deg);border:1px solid var(--text);background:var(--bg3)`;
-      bg.appendChild(d);
-      sheets.push({ el: d, x, y, rot, spd: Math.random() * .15 + .05, amp: Math.random() * 3 + 1, t: Math.random() * Math.PI * 2 });
-    }
-
-    const liner = document.createElement('div');
-    liner.style.cssText = `position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 27px,var(--border) 28px);opacity:.15;pointer-events:none`;
-    bg.appendChild(liner);
-
-    let animationId;
-    const animate = () => {
-      sheets.forEach(s => {
-        s.t += s.spd * .01;
-        const dy = Math.sin(s.t) * s.amp;
-        const dr = Math.cos(s.t * .7) * .5;
-        s.el.style.transform = `rotate(${s.rot + dr}deg) translateY(${dy}px)`;
-      });
-      animationId = requestAnimationFrame(animate);
-    };
-    animate();
-
-    return () => cancelAnimationFrame(animationId);
-  }, []);
+  const { lang } = useThemeLang();
 
   return (
-    <section id="about" className="relative overflow-hidden min-h-screen pt-[52px] bg-bg2 print:hidden">
-      <div id="about-bg" className="absolute inset-0 z-0 pointer-events-none overflow-hidden [data-theme='dark']_&>.paper-fold:opacity-4"></div>
-
-      <div className="relative z-[2] max-w-[1080px] mx-auto px-8 pt-28 pb-24">
-
-        <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-12 mb-20 border-b border-border pb-8 rv">
-          <div className="font-dm text-[9px] tracking-[.2em] text-text3 uppercase md:[writing-mode:vertical-rl] md:rotate-180 shrink-0">
-            MENGENAL LEBIH DEKAT
-          </div>
-          <div className="font-playfair text-[clamp(36px,7vw,76px)] font-bold leading-[0.95] tracking-[-2px] text-text flex-1">
-            Tentang Saya
-          </div>
-          <div className="font-fraunces italic font-extralight text-[17px] text-text3 max-w-[240px] leading-[1.5] shrink-0">
-            Sekilas tentang latar belakang dan hal yang memicu semangat saya di dunia IT.
+    <section id="about" className="relative w-full min-h-screen py-24 px-10 md:px-16 lg:px-24" style={{ background: 'var(--bg)' }}>
+      
+      {/* HEADER TITLE (Mobile & Desktop) */}
+      <div className="block lg:hidden mb-12">
+        <div className="flex flex-col gap-2">
+           {/* GETTING TO KNOW ME di mobile (Horizontal) */}
+          <span className="text-[10px] tracking-[0.2em] text-[#888880] uppercase" style={{ fontFamily: "'Geist Mono', monospace" }}>
+            {lang === 'id' ? 'MENGENAL SAYA' : 'GETTING TO KNOW ME'}
+          </span>
+          <div className="text-[40px] font-normal tracking-tight leading-none">
+            {lang === 'id' ? <><span className="accent-font">T</span>ENTAN<span className="accent-font">G SA</span>YA</> : <><span className="accent-font">A</span>BOU<span className="accent-font">T M</span>E</>}
           </div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 rv">
-          {/* KOLOM KIRI: Latar Belakang & Pendidikan */}
-          <div>
-            <div className="font-dm text-[9px] tracking-[.2em] uppercase text-text3 mb-5 pb-3 border-b border-border2">LATAR BELAKANG KELUARGA</div>
-            {/* UPDATE TEKS: Nambahin Lahir & Tinggal di Semarang */}
-            <p className="font-mono uppercase tracking-widest text-[11px] font-medium text-text2 leading-[1.8] mb-4">
-              LAHIR DAN TINGGAL DI SEMARANG, JAWA TENGAH. ANAK KEDUA DARI DUA BERSAUDARA. MENETAP BERSAMA AYAH, IBU, DAN KAKAK YANG SELALU MENJADI SUPPORT SYSTEM UTAMA DALAM MENGEJAR MIMPI DI DUNIA TEKNOLOGI.
-            </p>
+      <div className="max-w-[1300px] w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1fr_300px] gap-8 lg:gap-14">
 
-            <div className="font-dm text-[9px] tracking-[.2em] uppercase text-text3 mt-8 mb-5 pb-3 border-b border-border2">RIWAYAT PENDIDIKAN</div>
-            <div className="py-3 border-b border-border2">
-              <div className="text-[13px] font-bold text-text">SMK Negeri 7 Semarang</div>
-              <div className="font-dm text-[10px] text-text3 mt-[2px]">Sistem Informasi Jaringan & Aplikasi · 2022–Kini</div>
-            </div>
-            <div className="py-3 border-b border-border2">
-              <div className="text-[13px] font-bold text-text">SMP Negeri 5 Semarang</div>
-              <div className="font-dm text-[10px] text-text3 mt-[2px]">2019–2022</div>
-            </div>
-            <div className="py-3 border-b border-border2">
-              <div className="text-[13px] font-bold text-text">SD Negeri Sukorejo 1</div>
-              <div className="font-dm text-[10px] text-text3 mt-[2px]">2013–2019</div>
-            </div>
-            <div className="py-3">
-              <div className="text-[13px] font-bold text-text">TK Turus Kamulyan</div>
-              <div className="font-dm text-[10px] text-text3 mt-[2px]">2011–2013</div>
-            </div>
-          </div>
+        {/* Kolom 1: 001 & 002 */}
+        <div className="flex flex-col">
+          <AboutCard num="001" dots={1} title={lang === 'id' ? 'LATAR BELAKANG KELUARGA' : 'FAMILY BACKGROUND'} isJustify={true}>
+            {lang === 'id' 
+              ? 'LAHIR DAN BESAR DI SEMARANG, JAWA TENGAH. SAYA ANAK KEDUA DARI DUA BERSAUDARA, TINGGAL BERSAMA KELUARGA YANG MENDUKUNG YANG MENJADI MOTIVASI UTAMA SAYA DALAM MENITI KARIR DI INDUSTRI TEKNOLOGI.'
+              : 'BORN AND RAISED IN SEMARANG, CENTRAL JAVA. I AM THE SECOND OF TWO SIBLINGS, LIVING WITH A SUPPORTIVE FAMILY WHO HAS BEEN MY MAIN MOTIVATION IN PURSUING A CAREER IN THE TECH INDUSTRY.'}
+          </AboutCard>
 
-          {/* KOLOM TENGAH: Hobi & Visi */}
-          <div>
-            <div className="font-dm text-[9px] tracking-[.2em] uppercase text-text3 mb-5 pb-3 border-b border-border2">HOBI & MINAT</div>
-            <div className="font-mono uppercase tracking-widest text-[11px] font-medium text-text2 flex flex-col gap-3">
-              <div className="flex items-start gap-2"><span className="sv-dot mt-1.5"></span>MEMBACA BUKU & ARTIKEL IT</div>
-              <div className="flex items-start gap-2"><span className="sv-dot mt-1.5"></span>EKSPLORASI LOGIKA CODING</div>
-              <div className="flex items-start gap-2"><span className="sv-dot mt-1.5"></span>DESAIN ANTARMUKA (UI/UX)</div>
-              <div className="flex items-start gap-2"><span className="sv-dot mt-1.5"></span>PROBLEM SOLVING</div>
-              <div className="flex items-start gap-2"><span className="sv-dot mt-1.5"></span>KONFIGURASI JARINGAN DASAR</div>
-            </div>
-
-            <div className="font-dm text-[9px] tracking-[.2em] uppercase text-text3 mt-8 mb-5 pb-3 border-b border-border2">VISI KE DEPAN</div>
-            <p className="font-mono uppercase tracking-widest text-[11px] font-medium text-text2 leading-[1.8]">
-              BERKOMITMEN MENGASAH KEMAMPUAN FRONTEND DAN BACKEND. KONSISTENSI SERTA RASA INGIN TAHU ADALAH KUNCI SAYA UNTUK MENJADI FULLSTACK DEVELOPER YANG ANDAL.
-            </p>
-          </div>
-
-          {/* KOLOM KANAN: Keterampilan */}
-          <div>
-            <div className="font-dm text-[9px] tracking-[.2em] uppercase text-text3 mb-5 pb-3 border-b border-border2">KETERAMPILAN</div>
-            <div className="mb-4">
-              <div className="font-dm text-[9px] tracking-[.12em] text-text3 mb-3">SOFT SKILLS</div>
-              <div className="flex flex-wrap gap-[6px]">
-                <span className="sv-tag">Berpikir Kritis</span>
-                <span className="sv-tag">Pemecahan Masalah</span>
-                <span className="sv-tag">Adaptasi Cepat</span>
-                <span className="sv-tag">Manajemen Waktu</span>
-                <span className="sv-tag">Kerja Sama Tim</span>
-                <span className="sv-tag">Kemauan Belajar</span>
-              </div>
-            </div>
-            <div className="mt-6">
-              <div className="font-dm text-[9px] tracking-[.12em] text-text3 mb-3">HARD SKILLS</div>
-              <div className="flex flex-wrap gap-[6px]">
-                <span className="sv-tag">HTML & CSS</span>
-                <span className="sv-tag">JavaScript</span>
-                <span className="sv-tag">PHP & MySQL</span>
-                <span className="sv-tag">UI/UX Design</span>
-                <span className="sv-tag">Cisco Packet Tracer</span>
-                <span className="sv-tag">Canva & Photoshop</span>
-              </div>
-            </div>
-          </div>
+          <AboutCard num="002" dots={2} title={lang === 'id' ? 'VISI MASA DEPAN' : 'FUTURE VISION'} isJustify={true}>
+            {lang === 'id'
+              ? 'KOMITMEN SAYA TERLETAK PADA MENGASAH KEMAMPUAN FRONTEND DAN BACKEND SAYA. SAYA PERCAYA BAHWA KONSISTENSI DAN RASA HAUS AKAN PENGETAHUAN ADALAH HAL PENTING UNTUK MENJADI PENGEMBANG FULLSTACK PROFESIONAL.'
+              : 'MY COMMITMENT LIES IN SHARPENING MY FRONTEND AND BACKEND CAPABILITIES. I BELIEVE THAT CONSISTENCY AND AN ENDLESS THIRST FOR KNOWLEDGE ARE ESSENTIAL TO BECOMING A PROFESSIONAL FULLSTACK DEVELOPER.'}
+          </AboutCard>
         </div>
 
+        {/* Kolom 2: 003 & 004 */}
+        <div className="flex flex-col">
+          <AboutCard num="003" dots={3} title={lang === 'id' ? 'HOBI & MINAT' : 'HOBBIES & INTERESTS'} isJustify={false}>
+            <div className="flex flex-col gap-1">
+              <span>• {lang === 'id' ? 'MEMBACA BUKU & ARTIKEL TI' : 'READING BOOKS & IT ARTICLES'}</span>
+              <span>• {lang === 'id' ? 'MENGEKSPLORASI LOGIKA KODING' : 'EXPLORING CODING LOGIC'}</span>
+              <span>• {lang === 'id' ? 'DESAIN VISUAL & ANTARMUKA' : 'VISUAL & INTERFACE DESIGN'}</span>
+              <span>• {lang === 'id' ? 'MENDENGARKAN MUSIK' : 'LISTENING TO MUSIC'}</span>
+              <span>• {lang === 'id' ? 'MENONTON FILM' : 'WATCHING MOVIES'}</span>
+            </div>
+          </AboutCard>
+
+          <AboutCard num="004" dots={4} title={lang === 'id' ? 'PERJALANAN PENDIDIKAN' : 'EDUCATIONAL JOURNEY'} isJustify={false}>
+            <div className="flex flex-col gap-6">
+              <div>
+                <span className="font-normal text-inherit">• SMK NEGERI 7 SEMARANG</span><br />
+                <span className="opacity-70">INFORMATION SYSTEMS, NETWORKS & APPLICATIONS<br />2024 - 2028</span>
+              </div>
+              <div>
+                <span className="font-normal text-inherit">• SMP NEGERI 5 SEMARANG</span><br />
+                <span className="opacity-80">2021 - 2024</span>
+              </div>
+              <div>
+                <span className="font-normal text-inherit">• SD NEGERI SUKOREJO 1</span><br />
+                <span className="opacity-80">2015 - 2021</span>
+              </div>
+              <div>
+                <span className="font-normal text-inherit">• TK TURUS KAMULYAN</span><br />
+                <span className="opacity-80">2014 - 2015</span>
+              </div>
+            </div>
+          </AboutCard>
+        </div>
+
+        {/* Kolom 3: Skills & Vertical Title */}
+        <div className="flex flex-col justify-between h-full pt-2 lg:ml-4">
+          
+          <div className="flex flex-col">
+            <div className="mb-10">
+              <div className="text-[11px] font-normal tracking-[0.12em] uppercase mb-4 text-[#111110]" style={{ fontFamily: "'Geist Mono', monospace" }}>SOFT SKILLS</div>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap gap-3"><SkillTag text="CRITICAL THINKING" /></div>
+                <div className="flex flex-wrap gap-3"><SkillTag text="TEAMWORK" /><SkillTag text="TIME MANAGEMENT" /></div>
+                <div className="flex flex-wrap gap-3"><SkillTag text="PROBLEM SOLVING" /><SkillTag text="FAST LEARNER" /></div>
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[11px] font-normal tracking-[0.12em] uppercase mb-4 text-[#111110]" style={{ fontFamily: "'Geist Mono', monospace" }}>HARD SKILLS</div>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap gap-3"><SkillTag text="HTML & CSS" /><SkillTag text="JAVASCRIPT" /></div>
+                <div className="flex flex-wrap gap-3"><SkillTag text="BOOTSTRAP TAILWIND" /><SkillTag text="FIGMA" /></div>
+                <div className="flex flex-wrap gap-3"><SkillTag text="CISCO PACKET TRACER" /></div>
+                <div className="flex flex-wrap gap-3"><SkillTag text="SUPABASE (BAAS)" /></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Vertical Title (Desktop Only) */}
+          <div className="hidden lg:flex justify-end mt-24 pb-8">
+            <div className="flex gap-4 items-end">
+              <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] tracking-[0.2em] text-[#888880] uppercase pb-2" style={{ fontFamily: "'Geist Mono', monospace" }}>
+                {lang === 'id' ? 'MENGENAL SAYA' : 'GETTING TO KNOW ME'}
+              </span>
+              <div className="[writing-mode:vertical-rl] text-[clamp(40px,5vw,70px)] font-normal tracking-tight leading-[0.9]">
+                {lang === 'id' ? <><span className="accent-font">T</span>ENTAN<span className="accent-font">G SA</span>YA</> : <><span className="accent-font">A</span>BOU<span className="accent-font">T M</span>E</>}
+              </div>
+            </div>
+          </div>
+          
+        </div>
       </div>
     </section>
   );

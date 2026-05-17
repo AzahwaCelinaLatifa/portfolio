@@ -1,76 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useThemeLang } from '../context/ThemeLangContext';
 import ScrambledText from './ScrambledText';
+import starLogo from '../assets/figma/star_logo.svg';
+import plusIcon from '../assets/figma/mdi-light_plus.svg';
+import arrowIcon from '../assets/figma/arrow_bottom_right_bold.svg';
 
-// Menerima props isVisible dari App.jsx
-const Header = ({ onOpenContact, isVisible }) => {
-  const { lang, setLang } = useThemeLang();
-  const [time, setTime] = useState(new Date());
+const Header = ({ isVisible, onOpenMobileMenu }) => {
+  const { lang } = useThemeLang();
 
-  // Data menu untuk Desktop
   const menuItems = [
-    { label: 'Home', link: '#home' },
-    { label: 'About', link: '#about' },
-    { label: 'Skills', link: '#skills' },
-    { label: 'Projects', link: '#projects' },
+    { label: lang === 'id' ? 'BERANDA' : 'HOME', link: '#home' },
+    { label: lang === 'id' ? 'TENTANG' : 'ABOUT', link: '#about' },
+    { label: lang === 'id' ? 'KEAHLIAN' : 'SKILLS', link: '#skills' },
+    { label: lang === 'id' ? 'PROYEK' : 'PROJECTS', link: '#projects' },
     { label: 'CV', link: '#cv' }
   ];
 
-  // Update Jam
-  useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (date) => {
-    return date.toLocaleTimeString(lang === 'id' ? 'id-ID' : 'en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    });
-  };
-
   return (
-    <header 
-      className={`fixed top-0 left-0 w-full z-[30] pointer-events-none transition-transform duration-500 ease-in-out ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}
-    >
-      <div className="max-w-[1440px] mx-auto p-6 md:p-8 flex justify-between items-center relative">
+    <header className={`fixed top-0 left-0 w-full z-50 pointer-events-none transition-transform duration-500 ease-in-out ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-10 py-6 flex justify-between items-center">
         
-        {/* Sisi Kiri: Jam & Language Toggle */}
-        <div className="flex items-center gap-6 pointer-events-auto">
-          {/* Jam Digital */}
-          <div className="hidden sm:block font-mono text-sm tracking-widest opacity-70">
-            [{formatTime(time)}]
-          </div>
+        {/* Left: ACEL* Logo */}
+        <a href="#home" className="flex items-center no-underline text-inherit pointer-events-auto">
+          <span className="text-2xl font-normal tracking-tight" style={{ fontFamily: "'Geist Mono', monospace" }}>
+            A<span className="accent-font">CEL</span>
+          </span>
+          {/* Bintang dinaikkan sedikit ke atas */}
+          <img src={starLogo} alt="star" className="w-[18px] h-[18px] ml-1 transform -translate-y-1.5 object-contain" style={{ animation: 'spin 5s linear infinite' }} />
+        </a>
 
-          {/* Toggle Bahasa */}
-          <button 
-            onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
-            className="group relative flex items-center gap-2 overflow-hidden px-3 py-1 border border-current rounded-full hover:bg-black hover:text-white transition-colors duration-300"
-          >
-            <span className="text-xs font-bold uppercase">
-              {lang === 'id' ? 'ID' : 'EN'}
-            </span>
-            <div className="w-1 h-1 rounded-full bg-current group-hover:scale-[2] transition-transform" />
-          </button>
-        </div>
-
-        {/* TENGAH: Navigasi Desktop */}
-        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 pointer-events-auto font-mono uppercase">
+        {/* Center: Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8 pointer-events-auto">
           {menuItems.map((item, index) => (
-            <a 
-              key={index} 
+            <a
+              key={index}
               href={item.link}
-              className="group flex items-center gap-2 text-sm font-medium tracking-widest hover:opacity-60 transition-opacity"
+              className="group flex items-center gap-2 text-xs font-normal tracking-[0.12em] uppercase no-underline text-inherit hover:opacity-50 transition-opacity"
+              style={{ fontFamily: "'Geist Mono', monospace" }}
             >
-              {/* Ikon Plus terbalik saat disentuh */}
-              <span className="text-[12px] font-bold transform transition-transform duration-300 group-hover:rotate-[135deg]">
-                +
-              </span>
-              
+              <img src={plusIcon} alt="+" className="w-3.5 h-3.5 object-contain transition-transform duration-300 group-hover:rotate-[135deg]" />
               <ScrambledText radius={60} duration={0.6} speed={0.5}>
                 {item.label}
               </ScrambledText>
@@ -78,26 +46,39 @@ const Header = ({ onOpenContact, isVisible }) => {
           ))}
         </nav>
 
-        {/* Sisi Kanan: Tombol Contact (Desktop) & Spacer (Mobile) */}
-        <div className="pointer-events-auto flex items-center">
-          {/* Tombol Contact KHUSUS Desktop */}
-          <button 
-            onClick={onOpenContact}
-            className="hidden md:flex group items-center gap-2 text-sm font-mono font-medium tracking-widest hover:opacity-60 transition-opacity uppercase"
+        {/* Right: Contact + Mobile Menu */}
+        <div className="flex items-center gap-4 pointer-events-auto">
+          {/* Desktop Contact dengan interaksi putar panah ke bawah */}
+          <a
+            href="#contact"
+            className="group hidden md:flex items-center gap-2 text-xs font-normal tracking-[0.12em] uppercase no-underline text-inherit hover:opacity-50 transition-opacity"
+            style={{ fontFamily: "'Geist Mono', monospace" }}
           >
             <ScrambledText radius={60} duration={0.6} speed={0.5}>
-              Contact
+              {lang === 'id' ? 'KONTAK' : 'CONTACT'}
             </ScrambledText>
-            <span className="transform transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-              ↗
-            </span>
+            {/* Animasi group-hover:rotate-45 biar muter arah bawah */}
+            <img src={arrowIcon} alt="arrow" className="w-2.5 h-2.5 object-contain brightness-0 -rotate-90 transition-transform duration-300 group-hover:rotate-45" />
+          </a>
+
+          {/* Mobile Hamburger */}
+          <button
+            onClick={onOpenMobileMenu}
+            className="md:hidden flex items-center gap-2 bg-transparent border-none cursor-pointer text-inherit text-sm font-normal tracking-[0.1em] uppercase"
+            style={{ fontFamily: "'Geist Mono', monospace" }}
+          >
+            MENU
+            <img src={plusIcon} alt="+" className="w-4 h-4 object-contain" />
           </button>
-
-          {/* Spacer - Area ini akan diisi oleh StaggeredMenu di versi Mobile */}
-          <div className="w-10 h-10 md:hidden" /> 
         </div>
-
       </div>
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </header>
   );
 };
