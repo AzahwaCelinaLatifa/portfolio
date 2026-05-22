@@ -47,60 +47,96 @@ const allProjectsData = {
   ],
   'NETWORK': [
     { 
-      id: '001', name: 'ENTERPRISE ROUTING', 
-      desc: 'COMPLEX NETWORK TOPOLOGY SIMULATION USING CISCO PACKET TRACER', 
-      descId: 'SIMULASI TOPOLOGI JARINGAN KOMPLEKS MENGGUNAKAN CISCO PACKET TRACER', 
+      id: '001', name: 'ROUTING DYNAMIC RIP', 
+      desc: 'IMPLEMENTATION OF DYNAMIC RIP ROUTING PROTOCOL', 
+      descId: 'IMPLEMENTASI PROTOKOL PERUTEAN DINAMIS RIP', 
       img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800',
-      repo: '#', live: null, 
-      techEn: ['Packet Tracer', 'OSPF', 'VLAN'], techId: ['Packet Tracer', 'OSPF', 'VLAN'],
-      howIHelpEn: 'Configured complex routing, subnets, and implemented inter-VLAN communications.', 
-      howIHelpId: 'Mengonfigurasi perutean kompleks, subnet, dan menerapkan komunikasi antar-VLAN.'
+      repo: '#', live: 'https://drive.google.com/file/d/1GAs3OFZ1Q-Mg29nyrUHH7YFXE3YKbb5X/view?usp=sharing', 
+      techEn: ['Packet Tracer', 'RIP', 'Routing'], techId: ['Packet Tracer', 'RIP', 'Routing'],
+      howIHelpEn: 'Configured and tested dynamic routing using RIP protocol across multiple routers.', 
+      howIHelpId: 'Mengonfigurasi dan menguji perutean dinamis menggunakan protokol RIP pada beberapa router.'
     },
     { 
-      id: '002', name: 'SECURE INFRASTRUCTURE', 
-      desc: 'IMPLEMENTATION OF FIREWALLS AND VPN FOR CORPORATE SECURITY', 
-      descId: 'IMPLEMENTASI FIREWALL DAN VPN UNTUK KEAMANAN PERUSAHAAN', 
+      id: '002', name: 'OSPF MIKROTIK', 
+      desc: 'DYNAMIC OSPF ROUTING CONFIGURATION ON MIKROTIK ROUTERS', 
+      descId: 'KONFIGURASI PERUTEAN DINAMIS OSPF PADA ROUTER MIKROTIK', 
       img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800',
-      repo: '#', live: null, 
-      techEn: ['ASA Firewall', 'VPN Tunneling'], techId: ['ASA Firewall', 'VPN Tunneling'],
-      howIHelpEn: 'Implemented corporate security firewall policies and secure remote access connections.', 
-      howIHelpId: 'Menerapkan kebijakan firewall keamanan perusahaan dan koneksi akses jarak jauh yang aman.'
+      repo: '#', live: 'https://drive.google.com/file/d/1s40UzcWlWDPdGQK_uGhmPKK4Jft45rNL/view?usp=sharing', 
+      techEn: ['Mikrotik', 'OSPF', 'Networking'], techId: ['Mikrotik', 'OSPF', 'Jaringan'],
+      howIHelpEn: 'Implemented OSPF for automated and efficient path selection in a Mikrotik network environment.', 
+      howIHelpId: 'Mengimplementasikan OSPF untuk pemilihan jalur yang efisien dan otomatis di lingkungan jaringan Mikrotik.'
+    },
+    { 
+      id: '003', name: 'DYNAMIC BGP', 
+      desc: 'BORDER GATEWAY PROTOCOL DYNAMIC ROUTING CONFIGURATION', 
+      descId: 'KONFIGURASI PERUTEAN DINAMIS PROTOKOL BORDER GATEWAY', 
+      img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
+      repo: '#', live: 'https://docs.google.com/document/d/1kU_A2Khf5LeBRLfM2NeayQk1svwYNkbA/edit?usp=sharing&ouid=100691377553012188621&rtpof=true&sd=true', 
+      techEn: ['BGP', 'Routing', 'WAN'], techId: ['BGP', 'Routing', 'WAN'],
+      howIHelpEn: 'Set up advanced BGP routing to handle external gateway communications between autonomous systems.', 
+      howIHelpId: 'Mengatur perutean BGP tingkat lanjut untuk menangani komunikasi gateway eksternal antar sistem otonom.'
+    },
+    { 
+      id: '004', name: 'STATIC ROUTING (3 ROUTERS)', 
+      desc: 'NETWORK IMPLEMENTATION USING STATIC ROUTING ACROSS 3 DIFFERENT ROUTERS', 
+      descId: 'IMPLEMENTASI JARINGAN MENGGUNAKAN PERUTEAN STATIS PADA 3 ROUTER BERBEDA', 
+      img: 'https://images.unsplash.com/photo-1520869562399-e772f042f422?auto=format&fit=crop&q=80&w=800', 
+      repo: '#', live: 'https://drive.google.com/file/d/1sys04H4NSClWH_FxXDJEFz0nL17BB980/view?usp=sharing', 
+      techEn: ['Packet Tracer', 'Static Routing'], techId: ['Packet Tracer', 'Routing Statis'],
+      howIHelpEn: 'Manually mapped and configured IP routes across a 3-router topology for exact traffic control.', 
+      howIHelpId: 'Memetakan dan mengonfigurasi rute IP secara manual di topologi 3-router untuk kendali lalu lintas yang pasti.'
     }
   ],
   'DESIGN': [
     { 
-      id: '001', name: 'LUMINA UI', 
-      desc: 'MODERN AND MINIMALIST DESIGN SYSTEM FOR WEB APPLICATIONS', 
-      descId: 'SISTEM DESAIN MODERN DAN MINIMALIS UNTUK APLIKASI WEB', 
-      img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800',
-      repo: '#', live: null, 
-      techEn: ['Figma', 'Design System'], techId: ['Figma', 'Sistem Desain'],
-      howIHelpEn: 'Created atomic UI components, typography guidelines, and responsive grid layouts.', 
-      howIHelpId: 'Membuat komponen UI atomik, pedoman tipografi, dan tata letak kisi yang responsif.'
+      id: '001', name: 'BRIEF LOGO FOR CATERING', 
+      desc: 'LOGO DESIGN AND VISUAL BRAND IDENTITY FOR A PROFESSIONAL CATERING SERVICE', 
+      descId: 'DESAIN LOGO DAN IDENTITAS BRANDING VISUAL UNTUK LAYANAN KATERING PROFESIONAL', 
+      img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800',
+      repo: '#', live: 'https://drive.google.com/file/d/10_rE0_82bVj-FIERu6ePrKRmI-pYBNkD/view?usp=sharing', 
+      techEn: ['Figma', 'Logo Design', 'Branding'], techId: ['Figma', 'Desain Logo', 'Branding'],
+      howIHelpEn: 'Created a unique logo concept and comprehensive visual guidelines based on the client brief.', 
+      howIHelpId: 'Membuat konsep logo unik dan panduan visual komprehensif berdasarkan brief klien.'
     },
     { 
-      id: '002', name: 'ECHO APP', 
-      desc: 'USER INTERFACE DESIGN FOR A SOCIAL AUDIO PLATFORM', 
-      descId: 'DESAIN ANTARMUKA PENGGUNA UNTUK PLATFORM AUDIO SOSIAL', 
-      img: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&q=80&w=800',
-      repo: '#', live: null, 
-      techEn: ['Figma', 'Prototyping'], techId: ['Figma', 'Prototyping'],
-      howIHelpEn: 'Conducted user research, mapped user flows, and built high-fidelity interactive mockups.', 
-      howIHelpId: 'Melakukan riset pengguna, memetakan alur pengguna, dan membangun maket interaktif kesetiaan tinggi.'
+      id: '002', name: 'UI UX WEB PORTFOLIO', 
+      desc: 'HIGH-FIDELITY INTERACTIVE WEB DESIGN FOR A PERSONAL PORTFOLIO WEBSITE', 
+      descId: 'DESAIN WEB INTERAKTIF TINGKAT TINGGI UNTUK WEBSITE PORTOFOLIO PRIBADI', 
+      img: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800',
+      repo: '#', live: 'https://www.figma.com/design/1p4zTXts82egWXp91HNcXI/portfolio?node-id=0-1&t=JQ3AWVLjNanSOEau-1', 
+      techEn: ['Figma', 'UI/UX Design', 'Wireframing'], techId: ['Figma', 'Desain UI/UX', 'Wireframing'],
+      howIHelpEn: 'Crafted the typography structure, grid layouts, and fully interactive high-fidelity user interface.', 
+      howIHelpId: 'Menyusun struktur tipografi, tata letak grid, dan antarmuka pengguna interaktif kesetiaan tinggi.'
+    },
+    { 
+      id: '003', name: 'UI UX WEB SMART CAT FEEDER', 
+      desc: 'USER INTERFACE DESIGN FOR WEB-POWERED AUTOMATED CAT FEEDER WITH REMOTE CONTROL AND MONITORING INTERFACE', 
+      descId: 'DESAIN ANTARMUKA PENGGUNA UNTUK PANEL KONTROL PENGUMPAN KUCING OTOMATIS BERBASIS WEB DAN PEMANTAUAN JARAK JAUH', 
+      img: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800',
+      repo: '#', live: 'https://www.figma.com/design/i3PqW6QspZjO5S9c3zHvtD/MyPet---UX-UI-Design-Pet-supplies-store--Community-?t=JQ3AWVLjNanSOEau-1', 
+      techEn: ['Figma', 'UI/UX Design', 'IoT Interface'], techId: ['Figma', 'Desain UI/UX', 'Antarmuka IoT'],
+      howIHelpEn: 'Designed the intuitive user experience and responsive UI screens for the IoT smart cat feeder control panel.', 
+      howIHelpId: 'Mendesain pengalaman pengguna yang intuitif dan layar UI responsif untuk panel kontrol IoT pengumpan kucing otomatis.'
     }
   ]
 };
 
 const allCertificatesData = {
   'CODE': [
-    { id: '001', name: 'FRONTEND MASTERY', desc: 'ADVANCED CERTIFICATION IN REACT AND MODERN JAVASCRIPT', descId: 'SERTIFIKASI LANJUTAN DALAM REACT DAN JAVASCRIPT MODERN', img: 'https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&q=80&w=800', repo: '#', live: null, howIHelpEn: 'Earned through completing advanced frontend curriculum.', howIHelpId: 'Diperoleh melalui penyelesaian kurikulum lanjutan frontend.' }
+    { id: '001', name: 'JAVASCRIPT COMPETENCY', desc: 'ADVANCED CERTIFICATION IN MODERN JAVASCRIPT PRINCIPLES AND APPLICATIONS', descId: 'SERTIFIKASI LANJUTAN DALAM PRINSIP DAN APLIKASI JAVASCRIPT MODERN', img: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png', repo: '#', live: null, howIHelpEn: 'Earned through completing advanced JavaScript competency curriculum.', howIHelpId: 'Diperoleh melalui penyelesaian kurikulum kompetensi JavaScript lanjutan.' }
   ],
   'NETWORK': [
-    { id: '001', name: 'CCNA ROUTING', desc: 'CISCO CERTIFIED NETWORK ASSOCIATE FUNDAMENTALS', descId: 'DASAR-DASAR CISCO CERTIFIED NETWORK ASSOCIATE', img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800', repo: '#', live: null, howIHelpEn: 'Validated networking core competencies including routing.', howIHelpId: 'Memvalidasi kompetensi inti jaringan termasuk perutean.' }
+    { 
+      id: '001', name: 'INTRODUCTION TO CYBERSECURITY', 
+      desc: 'OFFERED BY IDCAMP THROUGH THE CISCO NETWORKING ACADEMY PROGRAM', 
+      descId: 'DITAWARKAN OLEH IDCAMP MELALUI PROGRAM CISCO NETWORKING ACADEMY', 
+      img: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800', 
+      repo: '#', live: 'https://drive.google.com/file/d/1KdceDma8k4TQ6GZ1EjRErIwZg6DTwFfQ/view?usp=sharing', 
+      howIHelpEn: 'Completed foundational training in cybersecurity concepts and network protection strategies.', 
+      howIHelpId: 'Menyelesaikan pelatihan dasar tentang konsep keamanan siber dan strategi perlindungan jaringan.' 
+    }
   ],
-  'DESIGN': [
-    { id: '001', name: 'UI/UX FUNDAMENTALS', desc: 'CORE PRINCIPLES OF USER INTERFACE AND EXPERIENCE', descId: 'PRINSIP INTI ANTARMUKA DAN PENGALAMAN PENGGUNA', img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800', repo: '#', live: null, howIHelpEn: 'Mastered user-centric design paradigms and wireframing.', howIHelpId: 'Menguasai paradigma desain yang berpusat pada pengguna dan wireframing.' }
-  ]
+  'DESIGN': []
 };
 
 const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
@@ -131,7 +167,6 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
     return () => clearInterval(interval);
   }, [activeCategory, subCategory, currentData.length]);
 
-  // FIX WARNA: Sekarang pakai Krem #EBE6E0
   const renderTitle = () => {
     const titleClass = "text-[clamp(32px,5vw,60px)] font-normal tracking-tight leading-[0.95] mb-6 relative z-10";
     if (activeCategory === 'NETWORK') return <h2 className={titleClass}><span className="pr-1 font-normal">NET</span><span className="accent-font italic text-[#EBE6E0]">WORK</span></h2>;
@@ -152,13 +187,11 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
   return (
     <div className="min-h-screen bg-white text-black pt-32 pb-20 px-6 md:px-12 lg:px-24 animate-fade-in relative overflow-hidden">
       
-      {/* DOT BACKGROUND (Samar) */}
       <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_top_right,rgba(227,242,253,0.3)_0%,transparent_60%)]" />
       <div className="absolute inset-0 pointer-events-none z-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at center, #000 1.5px, transparent 1.5px)', backgroundSize: '24px 24px' }} />
 
       <div className="max-w-[1100px] mx-auto relative z-10">
         
-        {/* Header */}
         <div className="flex flex-col mb-20">
           <div style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[12px] tracking-[0.08em] mb-8 text-black/50 uppercase flex items-center gap-3 relative z-10">
             <span className="cursor-pointer hover:text-black transition-colors" onClick={(e) => { e.preventDefault(); if (onClose) onClose(); }}>
@@ -180,52 +213,56 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
           </div>
         </div>
 
-        {/* Content */}
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-end relative z-10">
           
-          {/* Left: List Item */}
           <div className="w-full lg:w-[50%] flex flex-col gap-6">
-            {currentData.map((item, idx) => {
-              const isActive = idx === activeIndex;
-              return (
-                <div key={item.id} onClick={() => setActiveIndex(idx)} className="group flex flex-col cursor-pointer">
-                  <div style={{ fontFamily: "'Geist Mono', monospace" }} className={`flex items-center gap-6 text-[14px] md:text-[16px] transition-colors duration-300 pb-2 ${isActive ? 'text-black font-medium' : 'text-black/40 hover:text-black/70'}`}>
-                    <span>{item.id}</span>
-                    <span className="tracking-wide">{item.name}</span>
+            {currentData.length > 0 ? (
+              currentData.map((item, idx) => {
+                const isActive = idx === activeIndex;
+                return (
+                  <div key={item.id} onClick={() => setActiveIndex(idx)} className="group flex flex-col cursor-pointer">
+                    <div style={{ fontFamily: "'Geist Mono', monospace" }} className={`flex items-center gap-6 text-[14px] md:text-[16px] transition-colors duration-300 pb-2 ${isActive ? 'text-black font-medium' : 'text-black/40 hover:text-black/70'}`}>
+                      <span>{item.id}</span>
+                      <span className="tracking-wide">{item.name}</span>
+                    </div>
+                    <div className={`h-[2px] transition-all duration-500 ease-out ${isActive ? 'w-full bg-black' : 'w-[55%] bg-black/20'}`}></div>
                   </div>
-                  <div className={`h-[2px] transition-all duration-500 ease-out ${isActive ? 'w-full bg-black' : 'w-[55%] bg-black/20'}`}></div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <div style={{ fontFamily: "'Geist Mono', monospace" }} className="text-black/40 uppercase tracking-widest text-[13px] py-4">
+                {lang === 'id' ? '[ Tidak Ada Sertifikat Kategori Ini ]' : '[ No Certificates For This Category ]'}
+              </div>
+            )}
           </div>
 
-          {/* Right: Card Image (Grayscale hover) */}
-          <div className="w-full lg:w-[450px] h-[350px] md:h-[400px] rounded-[24px] relative overflow-hidden flex flex-col justify-end bg-white group border border-black/20 shadow-sm">
-            <img 
-              src={currentData[activeIndex]?.img} 
-              alt={currentData[activeIndex]?.name} 
-              className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-700 ease-out grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
-            />
-            
-            <div className="relative z-20 w-full flex flex-col p-6 md:p-8 bg-white border-t border-black/20">
-              <h2 className="text-black text-[18px] md:text-[22px] font-semibold tracking-wide mb-2">{currentData[activeIndex]?.name}</h2>
-              <p className="text-black/70 max-w-[90%] text-[12px] md:text-[13px] uppercase tracking-wider mb-6 leading-relaxed line-clamp-2">
-                {lang === 'id' ? currentData[activeIndex]?.descId : currentData[activeIndex]?.desc}
-              </p>
+          {currentData.length > 0 && (
+            <div className="w-full lg:w-[450px] h-[350px] md:h-[400px] rounded-[24px] relative overflow-hidden flex flex-col justify-end bg-white group border border-black/20 shadow-sm">
+              <img 
+                src={currentData[activeIndex]?.img} 
+                alt={currentData[activeIndex]?.name} 
+                className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-700 ease-out grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
+              />
               
-              <div className="w-full flex justify-end">
-                <button onClick={(e) => handleOpenModal(e, currentData[activeIndex])} className="group/btn inline-flex items-center gap-2 text-black hover:text-black/70 transition-colors uppercase tracking-[0.15em] text-[11px] md:text-[13px] bg-transparent border-none cursor-pointer">
-                  <ScrambledText radius={60} duration={0.6} speed={0.5}>{buttonText}</ScrambledText>
-                  <img src={arrowIcon} alt="Arrow" className="w-3 h-3 brightness-0 -rotate-90 transition-all duration-300 ease-out group-hover/btn:rotate-45 group-hover/btn:translate-y-1" draggable={false} />
-                </button>
+              <div className="relative z-20 w-full flex flex-col p-6 md:p-8 bg-white border-t border-black/20">
+                <h2 className="text-black text-[18px] md:text-[22px] font-semibold tracking-wide mb-2">{currentData[activeIndex]?.name}</h2>
+                <p className="text-black/70 max-w-[90%] text-[12px] md:text-[13px] uppercase tracking-wider mb-6 leading-relaxed line-clamp-2">
+                  {lang === 'id' ? currentData[activeIndex]?.descId : currentData[activeIndex]?.desc}
+                </p>
+                
+                <div className="w-full flex justify-end">
+                  <button onClick={(e) => handleOpenModal(e, currentData[activeIndex])} className="group/btn inline-flex items-center gap-2 text-black hover:text-black/70 transition-colors uppercase tracking-[0.15em] text-[11px] md:text-[13px] bg-transparent border-none cursor-pointer">
+                    <ScrambledText radius={60} duration={0.6} speed={0.5}>{buttonText}</ScrambledText>
+                    <img src={arrowIcon} alt="Arrow" className="w-3 h-3 brightness-0 -rotate-90 transition-all duration-300 ease-out group-hover/btn:rotate-45 group-hover/btn:translate-y-1" draggable={false} />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
         </div>
       </div>
 
-      {/* POP UP MODAL */}
       {selectedProject && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
           <div className="w-full max-w-[550px] bg-white border border-[#E0E0E0] rounded-[24px] p-6 md:p-8 text-black relative shadow-2xl">
@@ -251,7 +288,6 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
               {lang === 'id' ? selectedProject.descId : selectedProject.desc}
             </p>
 
-            {/* FIX WARNA BOX: Sekarang pakai Krem CV #EBE6E0 */}
             {showHowIHelp && (
               <div className="mb-8 p-5 bg-[#EBE6E0] border border-[#EBE6E0] rounded-xl animate-fade-in shadow-md">
                 <span style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[11px] text-black/60 font-semibold block mb-2">MY CONTRIBUTION:</span>

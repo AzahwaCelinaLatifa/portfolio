@@ -2,6 +2,8 @@ import React from 'react';
 import ScrambledText from './ScrambledText';
 import { useThemeLang } from '../context/ThemeLangContext';
 import arrowIcon from '../assets/figma/arrow_bottom_right_bold.svg';
+// Import foto dari folder assets
+import fotoCV from '../assets/fotocv.png';
 
 const CV = () => {
   const { lang } = useThemeLang();
@@ -102,10 +104,15 @@ const CV = () => {
             {/* LEFT COLUMN */}
             <div>
               <div className="flex flex-row md:flex-col gap-4 md:gap-0 mb-5 md:mb-7">
-                {/* Photo placeholder */}
-                <div className="w-16 h-20 sm:w-20 sm:h-24 md:w-24 md:h-[120px] shrink-0 bg-transparent flex flex-col items-center justify-center gap-1.5 md:gap-2 text-black/50 text-[7px] md:text-[8px] md:mb-7 border border-black/50 font-normal shadow-sm">
-                  <svg className="w-3 h-3 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /></svg>
-                  <span className="text-center px-1 font-['Geist_Mono']">{lang === 'id' ? 'FOTO' : 'PHOTO'}</span>
+                
+                {/* Photo CV */}
+                <div className="w-16 h-20 sm:w-20 sm:h-24 md:w-24 md:h-[120px] shrink-0 bg-white flex flex-col items-center justify-center md:mb-7 border border-black/50 shadow-sm p-1">
+                  <img 
+                    src={fotoCV} 
+                    alt="Azahwa Celina Latifa" 
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" 
+                    draggable={false} 
+                  />
                 </div>
 
                 {/* Personal Data */}

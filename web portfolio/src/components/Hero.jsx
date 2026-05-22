@@ -4,7 +4,7 @@ import Lanyard from './Lanyard';
 import ScrambledText from './ScrambledText';
 
 const Hero = () => {
-  const { lang, setLang } = useThemeLang(); // Memastikan setLang ada untuk mengubah bahasa saat diklik
+  const { lang, setLang } = useThemeLang(); 
   const [time, setTime] = useState(new Date());
   const [typedText, setTypedText] = useState('');
 
@@ -15,7 +15,6 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Efek mengetik untuk console.log
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
@@ -24,17 +23,23 @@ const Hero = () => {
       if (index >= consoleText.length) {
         clearInterval(interval);
       }
-    }, 100); // Kecepatan mengetik (100ms per karakter)
+    }, 100); 
     return () => clearInterval(interval);
   }, []);
 
   const formatTime = (d) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
 
+  const handleLangToggle = () => {
+    if (setLang) {
+      setLang(lang === 'id' ? 'en' : 'id');
+    } else {
+      console.warn("Context setLang tidak ditemukan!");
+    }
+  };
+
   return (
-    // FIX: mb-24 dihapus sepenuhnya agar tidak ada space kosong di bawah pagenya
     <section id="home" className="relative min-h-screen overflow-hidden flex flex-col justify-between pt-32 pb-20" style={{ background: 'var(--bg)' }}>
       
-      {/* Style lokal khusus untuk kursor ketikan agar berkedip tegas (bukan fade out) */}
       <style>{`
         @keyframes blink-cursor {
           50% { opacity: 0; }
@@ -52,31 +57,25 @@ const Hero = () => {
         maskImage: 'radial-gradient(ellipse 90% 90% at 50% 50%,#000 30%,transparent 100%)'
       }} />
 
-      {/* Hero Content Wrapper */}
       <div className="relative z-[2] w-full max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col flex-1">
-        
-        {/* 2-column grid: Lanyard Kiri, Text Kanan */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full flex-1">
           
-          {/* LEFT: Lanyard Card */}
+          {/* CONTAINER LANYARD */}
           <div className="flex flex-col items-center select-none relative w-full h-[350px] md:h-[450px] lg:h-[500px]">
-            <Lanyard position={[0, 0, 20]} />
+            <Lanyard />
           </div>
 
-          {/* RIGHT: Text Content */}
           <div className="flex flex-col gap-5 md:gap-6 pt-4 lg:pt-0">
             <span style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[10px] md:text-[12px] tracking-[0.15em] uppercase text-black/40">
               {lang === 'id' ? 'TERBUKA UNTUK PELUANG BARU' : 'OPEN TO NEW OPPORTUNITIES'}
             </span>
             
-            {/* Console log dengan efek animasi mengetik dan kursor ketikan */}
             <div style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[14px] md:text-[18px] font-normal text-black/90 flex items-center min-h-[28px]">
               <span>{typedText}</span>
               <span className="inline-block w-[2px] h-[15px] md:h-[18px] bg-black ml-1 typewriter-cursor" />
             </div>
             
             <h1 className="text-[clamp(32px,4vw,48px)] font-normal leading-[1.1] tracking-tight">
-              {/* FIX: Warna krem pada font aksen */}
               <span className="text-black/30 font-normal">I'M</span> AZAHWA <span className="accent-font italic text-[#EBE6E0]">CEL</span>INA LATIFA
             </h1>
             
@@ -107,8 +106,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Bottom paragraph */}
-        {/* FIX: font-medium diubah menjadi font-normal agar tidak bold */}
         <div style={{ fontFamily: "'Geist Mono', monospace" }} className="w-full max-w-[750px] mt-20 md:mt-32 text-[12px] md:text-[15px] tracking-[0.08em] leading-[2] uppercase font-normal text-black/90">
           {lang === 'id' 
             ? 'SANGAT BERSEMANGAT DALAM MEMBANGUN APLIKASI WEB DARI AWAL HINGGA AKHIR. TERUS MENGEKSPLORASI ESTETIKA FRONTEND DAN LOGIKA BACKEND UNTUK MENJADI PENGEMBANG FULLSTACK YANG HANDAL.'
@@ -117,11 +114,10 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Footer bar - Hanya berisi info bahasa & jam yang ditumpuk atas-bawah di sebelah kiri sesuai layout */}
       <div style={{ fontFamily: "'Geist Mono', monospace" }} className="relative z-[2] flex justify-between items-center px-6 md:px-12 py-6 border-t border-[rgba(17,17,16,.08)] mt-12 md:mt-20">
         <div className="flex flex-col gap-1 items-start text-[11px] md:text-[13px] tracking-[0.15em]">
           <button 
-            onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
+            onClick={handleLangToggle}
             className="flex items-center gap-1.5 bg-transparent border-none cursor-pointer text-inherit font-medium hover:opacity-60 transition-opacity p-0"
           >
             <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="10" cy="10" r="8" /><ellipse cx="10" cy="10" rx="4" ry="8" /><line x1="2" y1="10" x2="18" y2="10" /></svg>
