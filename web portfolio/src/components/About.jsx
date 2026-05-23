@@ -2,41 +2,83 @@ import React from 'react';
 import { useThemeLang } from '../context/ThemeLangContext';
 import starIcon from '../assets/figma/star_logo.svg'; 
 
-// Komponen Card (Ubah bg-transparent jadi bg-white)
-const AboutCard = ({ num, dots, title, isJustify, children }) => (
-  <div className="group w-full border border-[rgba(17,17,16,.15)] bg-white flex flex-col mb-8 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:bg-[#111110] hover:border-[#111110] hover:shadow-2xl cursor-default">
-    <div className="border-b border-[rgba(17,17,16,.15)] p-2.5 flex gap-1.5 px-4 transition-colors duration-500 group-hover:border-[rgba(255,255,255,0.15)]">
-      {Array.from({ length: dots }).map((_, i) => (
-        <div key={i} className="w-[6px] h-[6px] rounded-full bg-black/40 transition-colors duration-500 group-hover:bg-white" />
-      ))}
-    </div>
-    <div className="p-6 md:p-8 flex flex-col">
-      <span className="text-[11px] font-normal tracking-[0.1em] mb-8 text-[#111110] transition-colors duration-500 group-hover:text-white" style={{ fontFamily: "'Geist Mono', monospace" }}>
-        {num}
-      </span>
-      <span className="text-[11px] font-normal tracking-[0.1em] uppercase mb-6 text-[#111110] transition-colors duration-500 group-hover:text-white" style={{ fontFamily: "'Geist Mono', monospace" }}>
-        {title}
-      </span>
-      <div className={`text-[10px] tracking-[0.08em] leading-[2.2] uppercase text-black/80 font-normal transition-colors duration-500 group-hover:text-gray-300 ${isJustify ? 'text-justify' : 'text-left'}`} style={{ fontFamily: "'Geist Mono', monospace" }}>
-        {children}
+// Komponen Card - Menggunakan state theme langsung biar anti-gagal
+const AboutCard = ({ num, dots, title, isJustify, children }) => {
+  const { theme } = useThemeLang();
+  const isDark = theme === 'dark';
+
+  return (
+    <div className={`group w-full flex flex-col mb-8 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-2xl cursor-default border
+      ${isDark 
+        ? 'bg-[#111110] border-[rgba(255,255,255,0.15)] hover:bg-white hover:border-white' 
+        : 'bg-white border-[rgba(17,17,16,.15)] hover:bg-[#111110] hover:border-[#111110]'
+      }`}
+    >
+      <div className={`p-2.5 flex gap-1.5 px-4 transition-colors duration-500 border-b
+        ${isDark 
+          ? 'border-[rgba(255,255,255,0.15)] group-hover:border-[rgba(17,17,16,.15)]' 
+          : 'border-[rgba(17,17,16,.15)] group-hover:border-[rgba(255,255,255,0.15)]'
+        }`}
+      >
+        {Array.from({ length: dots }).map((_, i) => (
+          <div 
+            key={i} 
+            className={`w-[6px] h-[6px] rounded-full transition-colors duration-500 
+              ${isDark ? 'bg-white/40 group-hover:bg-[#111110]' : 'bg-black/40 group-hover:bg-white'}`} 
+          />
+        ))}
+      </div>
+      <div className="p-6 md:p-8 flex flex-col">
+        <span 
+          className={`text-[11px] font-normal tracking-[0.1em] mb-8 transition-colors duration-500 
+            ${isDark ? 'text-white group-hover:text-[#111110]' : 'text-[#111110] group-hover:text-white'}`} 
+          style={{ fontFamily: "'Geist Mono', monospace" }}
+        >
+          {num}
+        </span>
+        <span 
+          className={`text-[11px] font-normal tracking-[0.1em] uppercase mb-6 transition-colors duration-500 
+            ${isDark ? 'text-white group-hover:text-[#111110]' : 'text-[#111110] group-hover:text-white'}`} 
+          style={{ fontFamily: "'Geist Mono', monospace" }}
+        >
+          {title}
+        </span>
+        <div 
+          className={`text-[10px] tracking-[0.08em] leading-[2.2] uppercase font-normal transition-colors duration-500 
+            ${isDark ? 'text-white/80 group-hover:text-[#111110]' : 'text-black/80 group-hover:text-white'} 
+            ${isJustify ? 'text-justify' : 'text-left'}`} 
+          style={{ fontFamily: "'Geist Mono', monospace" }}
+        >
+          {children}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-// Komponen Tags (Ubah bg-transparent jadi bg-white)
-const SkillTag = ({ text }) => (
-  <div 
-    className="group flex items-center justify-center px-4 py-1.5 border border-[rgba(17,17,16,.25)] rounded-full transition-all duration-300 ease-out hover:scale-110 hover:bg-[#111110] hover:border-[#111110] cursor-default whitespace-nowrap bg-white"
-  >
-    <span 
-      className="text-black/70 text-[10px] tracking-[0.1em] uppercase font-normal transition-colors duration-300 group-hover:text-[#EBE6E0]" 
-      style={{ fontFamily: "'Geist Mono', monospace" }}
+// Komponen Tags - Menggunakan state theme langsung biar anti-gagal
+const SkillTag = ({ text }) => {
+  const { theme } = useThemeLang();
+  const isDark = theme === 'dark';
+
+  return (
+    <div 
+      className={`group flex items-center justify-center px-4 py-1.5 border rounded-full transition-all duration-300 ease-out hover:scale-110 cursor-default whitespace-nowrap
+        ${isDark 
+          ? 'bg-[#111110] border-[rgba(255,255,255,0.25)] hover:bg-white hover:border-white' 
+          : 'bg-white border-[rgba(17,17,16,.25)] hover:bg-[#111110] hover:border-[#111110]'
+        }`}
     >
-      {text}
-    </span>
-  </div>
-);
+      <span 
+        className={`text-[10px] tracking-[0.1em] uppercase font-normal transition-colors duration-300 
+          ${isDark ? 'text-white/80 group-hover:text-[#111110]' : 'text-black/70 group-hover:text-white'}`} 
+        style={{ fontFamily: "'Geist Mono', monospace" }}
+      >
+        {text}
+      </span>
+    </div>
+  );
+};
 
 const About = () => {
   const { lang } = useThemeLang();
@@ -45,9 +87,7 @@ const About = () => {
   return (
     <section 
       id="about" 
-      /* pt-40 UNTUK MEMBERIKAN JARAK AMAN DARI RUNNING TEXT */
       className="relative w-full min-h-screen pt-40 pb-24 px-10 md:px-16 lg:px-24 overflow-hidden flex flex-col justify-center" 
-      /* BACKGROUND SAMA PERSIS DENGAN CV.JSX */
       style={{ 
         backgroundColor: '#D4D4D4',
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.35'/%3E%3C/svg%3E")`,
@@ -56,7 +96,7 @@ const About = () => {
       }}
     >
       
-      {/* ================= CORNER DECORATIONS (+) - 100% MATCH CV ================= */}
+      {/* ================= CORNER DECORATIONS (+) ================= */}
       <div className="absolute top-8 left-8 text-black/15 text-3xl pointer-events-none hidden md:block select-none">+</div>
       <div className="absolute top-8 right-8 text-black/15 text-3xl pointer-events-none hidden md:block select-none">+</div>
       <div className="absolute bottom-8 left-8 text-black/15 text-3xl pointer-events-none hidden md:block select-none">+</div>

@@ -9,8 +9,10 @@ import ProjectDetailView from './components/ProjectDetailView';
 import CV from './components/CV';
 import Contact from './components/Contact';
 import MobileMenu from './components/MobileMenu';
+import SplashScreen from './components/SplashScreen'; // Import komponen SplashScreen
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true); // State untuk mengontrol kemunculan Splash Screen
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -71,6 +73,11 @@ function App() {
 
   return (
     <ThemeLangProvider>
+      {/* Splash Screen diletakkan di sini agar bertindak sebagai overlay paling atas.
+        Ketika loading beres, state showSplash diubah menjadi false untuk unmount komponen ini.
+      */}
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+
       <Header
         isVisible={isNavVisible}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}

@@ -6,12 +6,22 @@
 }
 
 @layer base {
+  /* --- MODE TERANG (Default) --- */
   :root {
     --bg: #ffffff;
-    --bg-dark: #0a0a0a;
     --text: #111110;
     --text-muted: #888880;
     --border-color: rgba(17,17,16,.12);
+    --grid-line: rgba(17, 17, 16, 0.04); 
+  }
+
+  /* --- MODE GELAP --- */
+  .dark {
+    --bg: #121212; 
+    --text: #f0efe8; 
+    --text-muted: #a0a099;
+    --border-color: rgba(255, 255, 255, 0.12);
+    --grid-line: rgba(255, 255, 255, 0.04);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,7 +39,11 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  ::selection { background: #111; color: #f0efe8; }
+  /* Blok seleksi teks (Highlight) yang invert warnanya */
+  ::selection { 
+    background: var(--text); 
+    color: var(--bg); 
+  }
 }
 
 /* Accent font class */

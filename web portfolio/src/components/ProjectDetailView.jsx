@@ -3,10 +3,15 @@ import arrowIcon from '../assets/figma/arrow_bottom_right_bold.svg';
 import ScrambledText from './ScrambledText';
 import { useThemeLang } from '../context/ThemeLangContext';
 
-const TechTag = ({ name }) => (
+// Tambahkan isDark sebagai prop agar tag bisa beradaptasi
+const TechTag = ({ name, isDark }) => (
   <span 
     style={{ fontFamily: "'Geist Mono', monospace" }}
-    className="inline-block px-3 py-1.5 border border-black/30 rounded-full text-[11px] tracking-[0.1em] text-black/70 uppercase transition-transform duration-300 ease-out hover:scale-110 active:scale-110 cursor-pointer select-none"
+    className={`inline-block px-3 py-1.5 border rounded-full text-[11px] tracking-[0.1em] uppercase transition-all duration-300 ease-out hover:scale-110 active:scale-110 cursor-pointer select-none ${
+      isDark 
+        ? 'border-[rgba(255,255,255,0.3)] text-[rgba(255,255,255,0.7)]' 
+        : 'border-[rgba(0,0,0,0.3)] text-[rgba(0,0,0,0.7)]'
+    }`}
   >
     {name}
   </span>
@@ -144,7 +149,10 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
   const [subCategory, setSubCategory] = useState('PROJECT'); 
   const [selectedProject, setSelectedProject] = useState(null); 
   const [showHowIHelp, setShowHowIHelp] = useState(false); 
-  const { lang } = useThemeLang();
+  const { lang, theme } = useThemeLang();
+
+  // Deteksi Dark Mode
+  const isDark = theme === 'dark';
 
   let activeCategory = 'CODE';
   if (category) {
@@ -185,29 +193,32 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black pt-32 pb-20 px-6 md:px-12 lg:px-24 animate-fade-in relative overflow-hidden">
+    // Mengganti background utama menggunakan isDark
+    <div className={`min-h-screen pt-32 pb-20 px-6 md:px-12 lg:px-24 animate-fade-in relative overflow-hidden transition-colors duration-500 ${isDark ? 'bg-[#111110] text-white' : 'bg-white text-black'}`}>
       
-      <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_top_right,rgba(227,242,253,0.3)_0%,transparent_60%)]" />
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at center, #000 1.5px, transparent 1.5px)', backgroundSize: '24px 24px' }} />
+      {/* Latar belakang efek dot dan gradient disesuaikan */}
+      <div className={`absolute inset-0 pointer-events-none z-0 transition-opacity duration-500 ${isDark ? 'bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.05)_0%,transparent_60%)]' : 'bg-[radial-gradient(circle_at_top_right,rgba(227,242,253,0.3)_0%,transparent_60%)]'}`} />
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-5 transition-all duration-500" style={{ backgroundImage: `radial-gradient(circle at center, ${isDark ? '#fff' : '#000'} 1.5px, transparent 1.5px)`, backgroundSize: '24px 24px' }} />
 
       <div className="max-w-[1100px] mx-auto relative z-10">
         
         <div className="flex flex-col mb-20">
-          <div style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[12px] tracking-[0.08em] mb-8 text-black/50 uppercase flex items-center gap-3 relative z-10">
-            <span className="cursor-pointer hover:text-black transition-colors" onClick={(e) => { e.preventDefault(); if (onClose) onClose(); }}>
+          {/* Breadcrumb text aman dengan rgba */}
+          <div style={{ fontFamily: "'Geist Mono', monospace" }} className={`text-[12px] tracking-[0.08em] mb-8 uppercase flex items-center gap-3 relative z-10 transition-colors duration-500 ${isDark ? 'text-[rgba(255,255,255,0.5)]' : 'text-[rgba(0,0,0,0.5)]'}`}>
+            <span className={`cursor-pointer transition-colors ${isDark ? 'hover:text-white' : 'hover:text-black'}`} onClick={(e) => { e.preventDefault(); if (onClose) onClose(); }}>
               PROJECTS
             </span> 
             <span>&gt;</span> 
-            <span className="text-black">{activeCategory}</span>
+            <span className={`${isDark ? 'text-white' : 'text-black'} transition-colors duration-500`}>{activeCategory}</span>
           </div>
           
           {renderTitle()}
 
           <div className="flex gap-4 text-[13px] tracking-[0.1em] uppercase relative z-10" style={{ fontFamily: "'Geist Mono', monospace" }}>
-            <span onClick={() => setSubCategory('PROJECT')} className={`cursor-pointer transition-colors px-2 py-1 ${subCategory === 'PROJECT' ? 'bg-black text-white' : 'text-black/50 hover:text-black'}`}>
+            <span onClick={() => setSubCategory('PROJECT')} className={`cursor-pointer transition-colors px-2 py-1 ${subCategory === 'PROJECT' ? (isDark ? 'bg-white text-black' : 'bg-black text-white') : (isDark ? 'text-[rgba(255,255,255,0.5)] hover:text-white' : 'text-[rgba(0,0,0,0.5)] hover:text-black')}`}>
               [ PROJECT ]
             </span>
-            <span onClick={() => setSubCategory('CERTIFICATE')} className={`cursor-pointer transition-colors px-2 py-1 ${subCategory === 'CERTIFICATE' ? 'bg-black text-white' : 'text-black/50 hover:text-black'}`}>
+            <span onClick={() => setSubCategory('CERTIFICATE')} className={`cursor-pointer transition-colors px-2 py-1 ${subCategory === 'CERTIFICATE' ? (isDark ? 'bg-white text-black' : 'bg-black text-white') : (isDark ? 'text-[rgba(255,255,255,0.5)] hover:text-white' : 'text-[rgba(0,0,0,0.5)] hover:text-black')}`}>
               [ CERTIFICATE ]
             </span>
           </div>
@@ -215,45 +226,48 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-end relative z-10">
           
+          {/* List Kiri */}
           <div className="w-full lg:w-[50%] flex flex-col gap-6">
             {currentData.length > 0 ? (
               currentData.map((item, idx) => {
                 const isActive = idx === activeIndex;
                 return (
                   <div key={item.id} onClick={() => setActiveIndex(idx)} className="group flex flex-col cursor-pointer">
-                    <div style={{ fontFamily: "'Geist Mono', monospace" }} className={`flex items-center gap-6 text-[14px] md:text-[16px] transition-colors duration-300 pb-2 ${isActive ? 'text-black font-medium' : 'text-black/40 hover:text-black/70'}`}>
+                    <div style={{ fontFamily: "'Geist Mono', monospace" }} className={`flex items-center gap-6 text-[14px] md:text-[16px] transition-colors duration-300 pb-2 ${isActive ? (isDark ? 'text-white font-medium' : 'text-black font-medium') : (isDark ? 'text-[rgba(255,255,255,0.4)] hover:text-[rgba(255,255,255,0.7)]' : 'text-[rgba(0,0,0,0.4)] hover:text-[rgba(0,0,0,0.7)]')}`}>
                       <span>{item.id}</span>
                       <span className="tracking-wide">{item.name}</span>
                     </div>
-                    <div className={`h-[2px] transition-all duration-500 ease-out ${isActive ? 'w-full bg-black' : 'w-[55%] bg-black/20'}`}></div>
+                    <div className={`h-[2px] transition-all duration-500 ease-out ${isActive ? (isDark ? 'w-full bg-white' : 'w-full bg-black') : (isDark ? 'w-[55%] bg-[rgba(255,255,255,0.2)]' : 'w-[55%] bg-[rgba(0,0,0,0.2)]')}`}></div>
                   </div>
                 );
               })
             ) : (
-              <div style={{ fontFamily: "'Geist Mono', monospace" }} className="text-black/40 uppercase tracking-widest text-[13px] py-4">
+              <div style={{ fontFamily: "'Geist Mono', monospace" }} className={`uppercase tracking-widest text-[13px] py-4 transition-colors duration-500 ${isDark ? 'text-[rgba(255,255,255,0.4)]' : 'text-[rgba(0,0,0,0.4)]'}`}>
                 {lang === 'id' ? '[ Tidak Ada Sertifikat Kategori Ini ]' : '[ No Certificates For This Category ]'}
               </div>
             )}
           </div>
 
+          {/* Image Card Kanan */}
           {currentData.length > 0 && (
-            <div className="w-full lg:w-[450px] h-[350px] md:h-[400px] rounded-[24px] relative overflow-hidden flex flex-col justify-end bg-white group border border-black/20 shadow-sm">
+            <div className={`w-full lg:w-[450px] h-[350px] md:h-[400px] rounded-[24px] relative overflow-hidden flex flex-col justify-end group border shadow-sm transition-colors duration-500 ${isDark ? 'bg-[#111110] border-[rgba(255,255,255,0.2)]' : 'bg-white border-[rgba(0,0,0,0.2)]'}`}>
               <img 
                 src={currentData[activeIndex]?.img} 
                 alt={currentData[activeIndex]?.name} 
                 className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-700 ease-out grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
               />
               
-              <div className="relative z-20 w-full flex flex-col p-6 md:p-8 bg-white border-t border-black/20">
-                <h2 className="text-black text-[18px] md:text-[22px] font-semibold tracking-wide mb-2">{currentData[activeIndex]?.name}</h2>
-                <p className="text-black/70 max-w-[90%] text-[12px] md:text-[13px] uppercase tracking-wider mb-6 leading-relaxed line-clamp-2">
+              <div className={`relative z-20 w-full flex flex-col p-6 md:p-8 border-t transition-colors duration-500 ${isDark ? 'bg-[#111110] border-[rgba(255,255,255,0.2)]' : 'bg-white border-[rgba(0,0,0,0.2)]'}`}>
+                <h2 className={`text-[18px] md:text-[22px] font-semibold tracking-wide mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-black'}`}>{currentData[activeIndex]?.name}</h2>
+                <p className={`max-w-[90%] text-[12px] md:text-[13px] uppercase tracking-wider mb-6 leading-relaxed line-clamp-2 transition-colors duration-500 ${isDark ? 'text-[rgba(255,255,255,0.7)]' : 'text-[rgba(0,0,0,0.7)]'}`}>
                   {lang === 'id' ? currentData[activeIndex]?.descId : currentData[activeIndex]?.desc}
                 </p>
                 
                 <div className="w-full flex justify-end">
-                  <button onClick={(e) => handleOpenModal(e, currentData[activeIndex])} className="group/btn inline-flex items-center gap-2 text-black hover:text-black/70 transition-colors uppercase tracking-[0.15em] text-[11px] md:text-[13px] bg-transparent border-none cursor-pointer">
+                  <button onClick={(e) => handleOpenModal(e, currentData[activeIndex])} className={`group/btn inline-flex items-center gap-2 transition-colors uppercase tracking-[0.15em] text-[11px] md:text-[13px] bg-transparent border-none cursor-pointer ${isDark ? 'text-white hover:text-[rgba(255,255,255,0.7)]' : 'text-black hover:text-[rgba(0,0,0,0.7)]'}`}>
                     <ScrambledText radius={60} duration={0.6} speed={0.5}>{buttonText}</ScrambledText>
-                    <img src={arrowIcon} alt="Arrow" className="w-3 h-3 brightness-0 -rotate-90 transition-all duration-300 ease-out group-hover/btn:rotate-45 group-hover/btn:translate-y-1" draggable={false} />
+                    {/* Icon panah di-invert kalau Dark Mode */}
+                    <img src={arrowIcon} alt="Arrow" className={`w-3 h-3 transition-all duration-300 ease-out group-hover/btn:rotate-45 group-hover/btn:translate-y-1 -rotate-90 ${isDark ? 'invert' : 'brightness-0'}`} draggable={false} />
                   </button>
                 </div>
               </div>
@@ -263,15 +277,16 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
         </div>
       </div>
 
+      {/* Modal Popup Detail */}
       {selectedProject && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-[550px] bg-white border border-[#E0E0E0] rounded-[24px] p-6 md:p-8 text-black relative shadow-2xl">
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-[rgba(0,0,0,0.6)] backdrop-blur-sm animate-fade-in">
+          <div className={`w-full max-w-[550px] border rounded-[24px] p-6 md:p-8 relative shadow-2xl transition-colors duration-500 ${isDark ? 'bg-[#111110] border-[rgba(255,255,255,0.2)] text-white' : 'bg-white border-[#E0E0E0] text-black'}`}>
             
-            <button onClick={() => setSelectedProject(null)} className="absolute top-6 right-6 text-black/40 hover:text-black transition-colors text-[20px] font-light leading-none cursor-pointer" style={{ fontFamily: "'Geist Mono', monospace" }}>
+            <button onClick={() => setSelectedProject(null)} className={`absolute top-6 right-6 transition-colors text-[20px] font-light leading-none cursor-pointer ${isDark ? 'text-[rgba(255,255,255,0.4)] hover:text-white' : 'text-[rgba(0,0,0,0.4)] hover:text-black'}`} style={{ fontFamily: "'Geist Mono', monospace" }}>
               X
             </button>
 
-            <span style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[11px] tracking-widest text-black/50 block mb-2">
+            <span style={{ fontFamily: "'Geist Mono', monospace" }} className={`text-[11px] tracking-widest block mb-2 transition-colors duration-500 ${isDark ? 'text-[rgba(255,255,255,0.5)]' : 'text-[rgba(0,0,0,0.5)]'}`}>
               // {subCategory} DETAIL
             </span>
             <h3 className="text-[24px] md:text-[28px] font-bold tracking-tight mb-4 uppercase">{selectedProject.name}</h3>
@@ -279,19 +294,19 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
             {!showHowIHelp && selectedProject.techEn && (
               <div className="flex flex-wrap gap-2.5 mb-6">
                 {(lang === 'id' ? selectedProject.techId : selectedProject.techEn).map((tech, index) => (
-                  <TechTag key={index} name={tech} />
+                  <TechTag key={index} name={tech} isDark={isDark} />
                 ))}
               </div>
             )}
 
-            <p className="text-[13px] text-black/70 leading-relaxed mb-8 uppercase tracking-wide">
+            <p className={`text-[13px] leading-relaxed mb-8 uppercase tracking-wide transition-colors duration-500 ${isDark ? 'text-[rgba(255,255,255,0.7)]' : 'text-[rgba(0,0,0,0.7)]'}`}>
               {lang === 'id' ? selectedProject.descId : selectedProject.desc}
             </p>
 
             {showHowIHelp && (
-              <div className="mb-8 p-5 bg-[#EBE6E0] border border-[#EBE6E0] rounded-xl animate-fade-in shadow-md">
-                <span style={{ fontFamily: "'Geist Mono', monospace" }} className="text-[11px] text-black/60 font-semibold block mb-2">MY CONTRIBUTION:</span>
-                <p className="text-[13px] text-black/90 font-medium leading-relaxed uppercase">
+              <div className={`mb-8 p-5 border rounded-xl animate-fade-in shadow-md transition-colors duration-500 ${isDark ? 'bg-[#1a1a19] border-[rgba(255,255,255,0.1)]' : 'bg-[#EBE6E0] border-[#EBE6E0]'}`}>
+                <span style={{ fontFamily: "'Geist Mono', monospace" }} className={`text-[11px] font-semibold block mb-2 transition-colors duration-500 ${isDark ? 'text-[rgba(255,255,255,0.6)]' : 'text-[rgba(0,0,0,0.6)]'}`}>MY CONTRIBUTION:</span>
+                <p className={`text-[13px] font-medium leading-relaxed uppercase transition-colors duration-500 ${isDark ? 'text-[rgba(255,255,255,0.9)]' : 'text-[rgba(0,0,0,0.9)]'}`}>
                   {lang === 'id' ? selectedProject.howIHelpId : selectedProject.howIHelpEn}
                 </p>
               </div>
@@ -299,19 +314,19 @@ const ProjectDetailView = ({ onClose, category = 'CODE' }) => {
 
             <div className="flex flex-wrap gap-4 text-[13px] uppercase tracking-wider" style={{ fontFamily: "'Geist Mono', monospace" }}>
               {selectedProject.repo && selectedProject.repo !== '#' && (
-                <button onClick={() => window.open(selectedProject.repo, '_blank')} className="px-2 py-1 text-black/50 hover:text-black transition-colors cursor-pointer">
+                <button onClick={() => window.open(selectedProject.repo, '_blank')} className={`px-2 py-1 transition-colors cursor-pointer ${isDark ? 'text-[rgba(255,255,255,0.5)] hover:text-white' : 'text-[rgba(0,0,0,0.5)] hover:text-black'}`}>
                   [ VIEW REPO ]
                 </button>
               )}
 
               {selectedProject.live && (
-                <button onClick={() => window.open(selectedProject.live, '_blank')} className="px-2 py-1 text-black/50 hover:text-black transition-colors cursor-pointer">
+                <button onClick={() => window.open(selectedProject.live, '_blank')} className={`px-2 py-1 transition-colors cursor-pointer ${isDark ? 'text-[rgba(255,255,255,0.5)] hover:text-white' : 'text-[rgba(0,0,0,0.5)] hover:text-black'}`}>
                   [ VIEW LIVE ]
                 </button>
               )}
 
               {selectedProject.howIHelpEn && (
-                <button onClick={() => setShowHowIHelp(!showHowIHelp)} className={`px-2 py-1 transition-colors cursor-pointer ${showHowIHelp ? 'bg-black text-white' : 'text-black/50 hover:text-black'}`}>
+                <button onClick={() => setShowHowIHelp(!showHowIHelp)} className={`px-2 py-1 transition-colors cursor-pointer ${showHowIHelp ? (isDark ? 'bg-white text-black' : 'bg-black text-white') : (isDark ? 'text-[rgba(255,255,255,0.5)] hover:text-white' : 'text-[rgba(0,0,0,0.5)] hover:text-black')}`}>
                   [ HOW I HELP ]
                 </button>
               )}

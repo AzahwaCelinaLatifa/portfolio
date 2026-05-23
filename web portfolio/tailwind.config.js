@@ -3,7 +3,8 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: ['class', '[data-theme="dark"]'],
+  // Menggunakan strategi class untuk dark mode (menyesuaikan tag <html>)
+  darkMode: 'class', 
   theme: {
     extend: {
       colors: {
