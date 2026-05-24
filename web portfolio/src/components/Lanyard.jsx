@@ -2,7 +2,7 @@
 'use client';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import { useGLTF, useTexture, Environment, Lightformer, AdaptiveDpr } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
@@ -43,14 +43,19 @@ export default function Lanyard({ gravity = [0, -40, 0], fov = 20, transparent =
       <Canvas
         // OPTIMIZATION: Halt the WebGL frameloop when scrolled out of view immediately
         frameloop={inView ? 'always' : 'never'}
-        // OPTIMIZATION: Hard cap pixel ratio to 1 for mobile (devicePixelRatio on mobile can be 3+, causing massive lag)
+        // OPTIMIZATION: Allow higher pixel ratio up to 2 for sharp mobile screens (Retina)
         camera={{ position: [0, isMobile ? 2 : 0, isMobile ? 22 : 16], fov: fov }}
-        dpr={[1, isMobile ? 1 : 1.5]} 
+        dpr={[1, 2]} 
         // Request higher performance GL context
         gl={{ alpha: transparent, antialias: true, powerPreference: 'high-performance' }}
-        onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
+        onCreated={({ gl }) => {
+          gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1);
+          // Set pixel alignment/encoding for sharper textures
+          gl.outputColorSpace = THREE.SRGBColorSpace;
+        }}
       >
         <React.Suspense fallback={null}>
+          <AdaptiveDpr pixelated />
           <ambientLight intensity={Math.PI} />
           {/* OPTIMIZATION: Pause heavy rapier physics calculations when off-screen */}
           <Physics gravity={gravity} timeStep={isMobile ? 1 / 60 : 1 / 60} paused={!inView}>
