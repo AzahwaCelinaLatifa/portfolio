@@ -14,7 +14,7 @@ const SplashScreen = ({ onComplete }) => {
   const [isBgExiting, setIsBgExiting] = useState(false);
 
   useEffect(() => {
-    let curtainTimer, mountTimer, timer, out1, out2, out3;
+    let curtainTimer, mountTimer, timer;
     
     // 1. Memicu hilangnya tirai hitam setelah mount (efek masuk)
     curtainTimer = setTimeout(() => {
@@ -47,17 +47,13 @@ const SplashScreen = ({ onComplete }) => {
       clearTimeout(curtainTimer);
       clearTimeout(mountTimer);
       clearInterval(timer);
-      if(out1) clearTimeout(out1);
-      if(out2) clearTimeout(out2);
-      if(out3) clearTimeout(out3);
       document.body.style.overflow = '';
     };
-  }, [currentProgress]);
+  }, [currentProgress, active]);
 
   // Pantau kapan progress mencapai 100% dan halaman sudah utuh
   useEffect(() => {
-    let out1, out2, out3;
-    const isDocReady = document.readyState === 'complete';
+    let out1, out2;
     
     // Check if everything is completely loaded
     if (progress >= 100) {
@@ -73,40 +69,37 @@ const SplashScreen = ({ onComplete }) => {
     }
 
     function triggerExit() {
-      // Skenario Animasi Keluar (Exit) yang lebih berkelas:
+      // FIX: Hapus setTimeout 500ms. Langsung jalankan animasi keluar.
+      
+      // Tahap 1: Teks & Logo membesar dan memudar ke kamera (INSTAN TANPA JEDA)
+      setIsContentExiting(true);
+      
+      // Tahap 2: Delay pendek, lalu background putih ditarik ke atas
       out1 = setTimeout(() => {
-        // Tahap 1: Teks & Logo membesar dan memudar ke kamera
-        setIsContentExiting(true);
+        setIsBgExiting(true);
         
-        // Tahap 2: Delay 300ms, lalu background putih ditarik ke atas
+        // Tahap 3: Hapus komponen setelah background selesai ditarik (700ms)
         out2 = setTimeout(() => {
-          setIsBgExiting(true);
-          
-          // Tahap 3: Hapus komponen setelah background selesai ditarik (700ms)
-          out3 = setTimeout(() => {
-            document.body.style.overflow = '';
-            onComplete();
-          }, 700);
-        }, 300);
-      }, 500); // Tahan sejenak di 100% sebelum mulai menghilang
+          document.body.style.overflow = '';
+          onComplete();
+        }, 700);
+      }, 150); // Delay dikecilkan dari 300ms ke 150ms agar transisi ke narik BG lebih cepat
+
     }
 
     return () => {
       if(out1) clearTimeout(out1);
       if(out2) clearTimeout(out2);
-      if(out3) clearTimeout(out3);
     };
   }, [progress, onComplete]);
 
   return (
     <div 
-      className={`fixed inset-0 z-[9999] pointer-events-none overflow-hidden
-        transition-transform duration-[700ms]
-      `}
+      className={`fixed inset-0 z-[9999] pointer-events-none overflow-hidden transition-transform duration-[700ms]`}
       style={{
-        // Ini adalah kunci efeknya: Saat isBgExiting true, SELURUH kontainer putih naik ke atas
-        transform: isBgExiting ? 'translateY(-100%)' : 'translateY(0)',
-        transitionTimingFunction: 'cubic-bezier(0.85, 0, 0.15, 1)'
+        transform: isBgExiting ? 'translate3d(0, -100%, 0)' : 'translate3d(0, 0, 0)',
+        transitionTimingFunction: 'cubic-bezier(0.85, 0, 0.15, 1)',
+        willChange: 'transform'
       }}
     >
       {/* LAPISAN BACKGROUND: Putih dengan grid kotak-kotak */}
@@ -125,8 +118,9 @@ const SplashScreen = ({ onComplete }) => {
       <div 
         className={`absolute inset-0 bg-[#121212] z-50 transition-transform duration-[700ms]`}
         style={{
-          transform: blackCurtain ? 'translateY(0)' : 'translateY(-101%)',
-          transitionTimingFunction: 'cubic-bezier(0.85, 0, 0.15, 1)'
+          transform: blackCurtain ? 'translate3d(0, 0, 0)' : 'translate3d(0, -101%, 0)',
+          transitionTimingFunction: 'cubic-bezier(0.85, 0, 0.15, 1)',
+          willChange: 'transform'
         }}
       />
 
@@ -135,7 +129,10 @@ const SplashScreen = ({ onComplete }) => {
         className={`relative w-full h-full flex flex-col items-center justify-center transition-all duration-[600ms]
           ${isContentExiting ? 'scale-[3] md:scale-[4] opacity-0 blur-md' : 'scale-100 opacity-100 blur-0'}
         `}
-        style={{ transitionTimingFunction: 'cubic-bezier(0.7, 0, 0.3, 1)' }}
+        style={{ 
+          transitionTimingFunction: 'cubic-bezier(0.7, 0, 0.3, 1)',
+          willChange: 'transform, opacity, filter' 
+        }}
       >
         {/* Bingkai Garis Tipis Minimalis */}
         <div className={`absolute inset-6 border border-black/[0.015] transition-opacity duration-1000 ${isMounted ? 'opacity-100' : 'opacity-0'}`} />
@@ -174,6 +171,7 @@ const SplashScreen = ({ onComplete }) => {
               alt="Loading Icon" 
               className="absolute right-0 top-[-2px] md:top-0 w-6 h-6 md:w-7 md:h-7 animate-[spin_3.5s_linear_infinite]"
               draggable={false}
+              style={{ willChange: 'transform' }}
             />
           </div>
 

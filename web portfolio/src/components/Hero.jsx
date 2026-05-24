@@ -3,7 +3,7 @@ import { useThemeLang } from '../context/ThemeLangContext';
 import Lanyard from './Lanyard';
 import ScrambledText from './ScrambledText';
 
-const Hero = () => {
+const Hero = ({ splashFinished = true }) => {
   const { lang, setLang, theme, toggleTheme } = useThemeLang(); 
   const [time, setTime] = useState(new Date());
   const [typedText, setTypedText] = useState('');
@@ -20,6 +20,9 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
+    // Jangan ketik animasi sebelum splash selesai
+    if (!splashFinished) return;
+    
     let index = 0;
     const interval = setInterval(() => {
       setTypedText(consoleText.slice(0, index + 1));
@@ -29,7 +32,7 @@ const Hero = () => {
       }
     }, 100); 
     return () => clearInterval(interval);
-  }, []);
+  }, [splashFinished]);
 
   const formatTime = (d) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
 
@@ -105,7 +108,11 @@ const Hero = () => {
             
             {/* CONTAINER LANYARD */}
             <div className="flex flex-col items-center select-none relative w-full h-[350px] md:h-[450px] lg:h-[500px]">
-              <Lanyard />
+              <div 
+                className={`w-full h-full transition-opacity duration-1000 ${splashFinished ? 'opacity-100' : 'opacity-0'}`}
+              >
+                {splashFinished && <Lanyard />}
+              </div>
             </div>
 
             <div className="flex flex-col gap-5 md:gap-6 pt-4 lg:pt-0">
@@ -139,11 +146,19 @@ const Hero = () => {
               
               <div style={{ fontFamily: "'Geist Mono', monospace" }} className="flex gap-8 items-center mt-6">
                 <a href="#projects" className="group flex items-center gap-2 text-[14px] md:text-[16px] font-medium tracking-[0.08em] uppercase no-underline text-text hover:opacity-60 transition-all duration-300">
-                  <ScrambledText radius={60} duration={0.6} speed={0.5}>{lang === 'id' ? 'LIHAT KARYA' : 'VIEW WORK'}</ScrambledText>
+                  {splashFinished ? (
+                    <ScrambledText radius={60} duration={0.6} speed={0.5}>{lang === 'id' ? 'LIHAT KARYA' : 'VIEW WORK'}</ScrambledText>
+                  ) : (
+                    <span>{lang === 'id' ? 'LIHAT KARYA' : 'VIEW WORK'}</span>
+                  )}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></svg>
                 </a>
                 <a href="#cv" className="group flex items-center gap-2 text-[14px] md:text-[16px] font-medium tracking-[0.08em] uppercase no-underline text-text hover:opacity-60 transition-all duration-300">
-                  <ScrambledText radius={60} duration={0.6} speed={0.5}>DOWNLOAD CV</ScrambledText>
+                  {splashFinished ? (
+                    <ScrambledText radius={60} duration={0.6} speed={0.5}>DOWNLOAD CV</ScrambledText>
+                  ) : (
+                    <span>DOWNLOAD CV</span>
+                  )}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-y-1 group-hover:translate-x-1"><line x1="7" y1="7" x2="17" y2="17" /><polyline points="17 7 17 17 7 17" /></svg>
                 </a>
               </div>

@@ -50,12 +50,17 @@ const ScrollIndicator = () => {
 
 function App() {
   const [showSplash, setShowSplash] = useState(true); // State untuk mengontrol kemunculan Splash Screen
+  const [splashFinished, setSplashFinished] = useState(false); // State untuk menunda komponen berat
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeView, setActiveView] = useState('main'); // 'main' | 'project-detail'
   const [selectedCategory, setSelectedCategory] = useState('CODE'); 
 
-  // PERBAIKAN BUG SKILLS HILANG: Observer sekarang memantau [activeView]
+  // PERBAIKAN BUG SKILLS HILANG: Observer sekarang memantau [activeView, splashFinished]
   useEffect(() => {
+    // Jangan jalankan intersection observer kalau splash belum selesai,
+    // karena konten masih deferred
+    if (!splashFinished) return;
+
     const rvObs = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) {
@@ -66,9 +71,7 @@ function App() {
     }, { threshold: 0.07 });
 
     let timeoutId;
-    // Cuma jalankan observer kalau kita lagi di halaman utama
     if (activeView === 'main') {
-      // Pake setTimeout kecil biar DOM sempet ke-render sebelum di-observe
       timeoutId = setTimeout(() => {
         document.querySelectorAll('.rv, .rv-l, .rv-r').forEach((el) => rvObs.observe(el));
       }, 100);
@@ -78,18 +81,24 @@ function App() {
       rvObs.disconnect();
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [activeView]);
+  }, [activeView, splashFinished]);
 
   const handleNavClick = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+    // Tunda sedikit rendering konten berat agar App sempat bernapas setelah unmount splash
+    setTimeout(() => {
+      setSplashFinished(true);
+    }, 50);
+  };
+
   return (
     <ThemeLangProvider>
-      {/* Splash Screen diletakkan di sini agar bertindak sebagai overlay paling atas.
-        Ketika loading beres, state showSplash diubah menjadi false untuk unmount komponen ini.
-      */}
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+      {/* Splash Screen overlay */}
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
 
       <Header
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
@@ -103,16 +112,23 @@ function App() {
 
       {activeView === 'main' ? (
         <main>
-          <Hero />
-          <About />
-          <Skills />
-          <Projects onProjectClick={(categoryName) => {
-            setSelectedCategory(categoryName);
-            window.scrollTo({ top: 0, behavior: 'auto' });
-            setActiveView('project-detail');
-          }} />
-          <CV />
-          <Contact />
+          {/* Kirim status splashFinished ke komponen yang memiliki elemen dinamis/berat */}
+          <Hero splashFinished={splashFinished} />
+          
+          {/* DEFER SEMUA KONTEN BERAT DI BAWAH HERO SAMPAI SPLASH SELESAI */}
+          {splashFinished && (
+            <>
+              <About />
+              <Skills />
+              <Projects splashFinished={splashFinished} onProjectClick={(categoryName) => {
+                setSelectedCategory(categoryName);
+                window.scrollTo({ top: 0, behavior: 'auto' });
+                setActiveView('project-detail');
+              }} />
+              <CV />
+              <Contact />
+            </>
+          )}
         </main>
       ) : (
         <ProjectDetailView 
