@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { useThemeLang } from '../context/ThemeLangContext';
-import Lanyard from './Lanyard';
 import ScrambledText from './ScrambledText';
+
+// Implement lazy loading for Lanyard
+const Lanyard = lazy(() => import('./Lanyard'));
 
 const Hero = ({ splashFinished = true }) => {
   const { lang, setLang, theme, toggleTheme } = useThemeLang(); 
@@ -111,7 +113,11 @@ const Hero = ({ splashFinished = true }) => {
               <div 
                 className={`w-full h-full transition-opacity duration-1000 ${splashFinished ? 'opacity-100' : 'opacity-0'}`}
               >
-                {splashFinished && <Lanyard />}
+                {splashFinished && (
+                  <Suspense fallback={null}>
+                    <Lanyard />
+                  </Suspense>
+                )}
               </div>
             </div>
 

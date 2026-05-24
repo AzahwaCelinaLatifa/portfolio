@@ -1,6 +1,8 @@
-import React from 'react';
-import Folder from './Folder';
+import React, { Suspense, lazy } from 'react';
 import { useThemeLang } from '../context/ThemeLangContext';
+
+// Implement lazy loading for the interactive Folder component
+const Folder = lazy(() => import('./Folder'));
 
 const Projects = ({ onProjectClick, splashFinished = true }) => {
   const { lang, theme } = useThemeLang();
@@ -37,21 +39,23 @@ const Projects = ({ onProjectClick, splashFinished = true }) => {
         {/* FIX: Margin dihilangkan karena sudah diurus oleh 'gap' di kontainer atasnya. min-h diperbaiki agar pas tidak terlalu kosong */}
         <div className="relative z-10 flex items-center justify-center w-full min-h-[300px] md:min-h-[400px]">
           {splashFinished && (
-            <Folder 
-              color="#808080" 
-              size={2.8} 
-              items={categoryList} 
-              onPaperClick={(val) => {
-                let safeCategory = 'CODE'; // default
-                if (typeof val === 'number') {
-                  safeCategory = categoryList[val];
-                } else if (typeof val === 'string') {
-                  safeCategory = val.toUpperCase();
-                }
-                
-                if (onProjectClick) onProjectClick(safeCategory);
-              }}
-            />
+            <Suspense fallback={<div className="min-h-[300px]" />}>
+              <Folder 
+                color="#808080" 
+                size={2.8} 
+                items={categoryList} 
+                onPaperClick={(val) => {
+                  let safeCategory = 'CODE'; // default
+                  if (typeof val === 'number') {
+                    safeCategory = categoryList[val];
+                  } else if (typeof val === 'string') {
+                    safeCategory = val.toUpperCase();
+                  }
+                  
+                  if (onProjectClick) onProjectClick(safeCategory);
+                }}
+              />
+            </Suspense>
           )}
         </div>
 

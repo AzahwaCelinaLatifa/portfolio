@@ -17,6 +17,8 @@ extend({ MeshLineGeometry, MeshLineMaterial });
 
 export default function Lanyard({ gravity = [0, -40, 0], fov = 20, transparent = true }) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const [inView, setInView] = useState(true);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -24,17 +26,34 @@ export default function Lanyard({ gravity = [0, -40, 0], fov = 20, transparent =
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // OPTIMIZATION: Pause rendering entirely when the Lanyard section is not visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting);
+    }, { rootMargin: '200px 0px', threshold: 0 });
+    
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
+    <div ref={containerRef} className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
       <Canvas
-        camera={{ position: [0, 0, 16], fov: fov }}
-        dpr={[1, isMobile ? 2 : 2]} 
-        gl={{ alpha: transparent, antialias: true }}
+        // OPTIMIZATION: Halt the WebGL frameloop when scrolled out of view immediately
+        frameloop={inView ? 'always' : 'never'}
+        // OPTIMIZATION: Hard cap pixel ratio to 1 for mobile (devicePixelRatio on mobile can be 3+, causing massive lag)
+        camera={{ position: [0, isMobile ? 2 : 0, isMobile ? 22 : 16], fov: fov }}
+        dpr={[1, isMobile ? 1 : 1.5]} 
+        // Request higher performance GL context
+        gl={{ alpha: transparent, antialias: true, powerPreference: 'high-performance' }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
         <React.Suspense fallback={null}>
           <ambientLight intensity={Math.PI} />
-          <Physics gravity={gravity} timeStep={isMobile ? 1 / 60 : 1 / 60}>
+          {/* OPTIMIZATION: Pause heavy rapier physics calculations when off-screen */}
+          <Physics gravity={gravity} timeStep={isMobile ? 1 / 60 : 1 / 60} paused={!inView}>
             <Band isMobile={isMobile} />
           </Physics>
           <Environment blur={0.75}>
@@ -161,7 +180,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      {/* FIX 2: Menaikkan titik gantung (anchor) dari 4 menjadi 5.5 khusus di HP agar lanyard tidak menjuntai terlalu ke bawah */}
+      <group position={[0, isMobile ? 5.5 : 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={[0.3, 0, 0]} ref={j1} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
         <RigidBody position={[0.6, 0, 0]} ref={j2} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
@@ -201,7 +221,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
       </group>
       <mesh ref={band}>
         <meshLineGeometry />
-        {/* FIX: Ubah warna jadi hitam dan kunci kalkulasi resolusi agar tidak berkedip */}
         <meshLineMaterial 
           color="black" 
           depthTest={false} 
