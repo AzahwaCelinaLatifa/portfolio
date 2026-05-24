@@ -54,11 +54,11 @@
 
 /* Reveal animations */
 .rv { opacity: 0; transform: translateY(32px); transition: opacity .75s ease, transform .75s ease; }
-.rv.in { opacity: 1; transform: none; }
+.rv[data-in="true"], .rv.in { opacity: 1; transform: none; }
 .rv-l { opacity: 0; transform: translateX(-32px); transition: opacity .75s ease, transform .75s ease; }
-.rv-l.in { opacity: 1; transform: none; }
+.rv-l[data-in="true"], .rv-l.in { opacity: 1; transform: none; }
 .rv-r { opacity: 0; transform: translateX(32px); transition: opacity .75s ease, transform .75s ease; }
-.rv-r.in { opacity: 1; transform: none; }
+.rv-r[data-in="true"], .rv-r.in { opacity: 1; transform: none; }
 
 @media print {
   nav, #home, #about, #skills, #projects, footer, header, .scroll-pct, .mobile-menu-overlay {

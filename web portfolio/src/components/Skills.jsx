@@ -22,6 +22,7 @@ const SkillItem = ({ name, pct, inView, isDark }) => {
       return;
     }
 
+    let frameId;
     let startTimestamp = null;
     const duration = 1200; 
 
@@ -35,13 +36,17 @@ const SkillItem = ({ name, pct, inView, isDark }) => {
       setCurrentNumber(current);
 
       if (progress < 1) {
-        window.requestAnimationFrame(step);
+        frameId = window.requestAnimationFrame(step);
       } else {
         setCurrentNumber(targetNumber);
       }
     };
 
-    window.requestAnimationFrame(step);
+    frameId = window.requestAnimationFrame(step);
+    
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+    };
   }, [inView, targetNumber]);
 
   return (
@@ -52,10 +57,10 @@ const SkillItem = ({ name, pct, inView, isDark }) => {
       
       <div className="flex items-center gap-2">
         {/* Menggunakan rgba murni untuk background track agar netral tanpa biru */}
-        <div className={`flex-1 h-[2px] relative transition-colors duration-500 ${isDark ? 'bg-[rgba(255,255,255,0.1)]' : 'bg-[rgba(0,0,0,0.1)]'}`}>
+        <div className={`flex-1 h-[2px] relative transition-colors duration-500 overflow-hidden ${isDark ? 'bg-[rgba(255,255,255,0.1)]' : 'bg-[rgba(0,0,0,0.1)]'}`}>
           <div 
-            className={`absolute top-0 left-0 h-full transition-all duration-[1200ms] ease-out ${isDark ? 'bg-white' : 'bg-[#111110]'}`} 
-            style={{ width: fillWidth }} 
+            className={`absolute top-0 left-0 h-full w-full origin-left transition-transform duration-[1200ms] ease-out ${isDark ? 'bg-white' : 'bg-[#111110]'}`} 
+            style={{ transform: `scaleX(${inView ? (parseInt(pct, 10) / 100) : 0})` }} 
           />
         </div>
         

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 'use client';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
@@ -9,9 +9,9 @@ import * as THREE from 'three';
 
 // Import foto dari folder assets
 import fotoLanyardImg from '../assets/fotolanyard.jpeg'; 
-// Aset dari folder public/
+
+// Aset model dari folder public/
 const cardGLB = '/card.glb';
-const lanyard = '/lanyard.png';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
@@ -28,13 +28,13 @@ export default function Lanyard({ gravity = [0, -40, 0], fov = 20, transparent =
     <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
       <Canvas
         camera={{ position: [0, 0, 16], fov: fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent }}
+        dpr={[1, isMobile ? 2 : 2]} 
+        gl={{ alpha: transparent, antialias: true }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
         <React.Suspense fallback={null}>
           <ambientLight intensity={Math.PI} />
-          <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+          <Physics gravity={gravity} timeStep={isMobile ? 1 / 60 : 1 / 60}>
             <Band isMobile={isMobile} />
           </Physics>
           <Environment blur={0.75}>
@@ -54,11 +54,14 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
   const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   
+  const { gl, size } = useThree(); 
   const { nodes, materials } = useGLTF(cardGLB);
-  const textureTali = useTexture(lanyard);
   
   const textureFoto = useTexture(fotoLanyardImg);
   textureFoto.wrapS = textureFoto.wrapT = THREE.ClampToEdgeWrapping;
+  textureFoto.minFilter = THREE.LinearMipmapLinearFilter;
+  textureFoto.magFilter = THREE.LinearFilter;
+  textureFoto.anisotropy = gl.capabilities.getMaxAnisotropy();
 
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
   const [dragged, drag] = useState(false);
@@ -66,7 +69,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
 
   const frontMatRef = useRef();
 
-  // FIX: Mengembalikan ukuran rope joint dari 0.55 menjadi 1 agar panjang tali pas dan ideal.
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
@@ -156,7 +158,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
   });
 
   curve.curveType = 'chordal';
-  textureTali.wrapS = textureTali.wrapT = THREE.RepeatWrapping;
 
   return (
     <>
@@ -177,7 +178,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
               <meshPhysicalMaterial color="#EBE6E0" clearcoat={isMobile ? 0 : 1} clearcoatRoughness={0.15} roughness={0.3} metalness={0.1} />
             </mesh>
             
-            {/* FIX: Posisi Y digeser dari 0.35 menjadi 0.5 dan args dipersempit sedikit ke 0.58 x 0.84 agar foto presisi di dalam frame mika */}
             <mesh position={[0, 0.5, 0.012]}>
               <planeGeometry args={[0.58, 0.84]} />
               <shaderMaterial
@@ -189,7 +189,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
               />
             </mesh>
 
-            {/* FIX: Posisi Y dan args untuk sisi belakang disamakan agar pas */}
             <mesh position={[0, 0.5, -0.012]} rotation={[0, Math.PI, 0]}>
               <planeGeometry args={[0.58, 0.84]} />
               <meshPhysicalMaterial color="#EBE6E0" roughness={0.4} />
@@ -202,8 +201,17 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
       </group>
       <mesh ref={band}>
         <meshLineGeometry />
-        <meshLineMaterial color="white" depthTest={false} resolution={isMobile ? [1000, 2000] : [1000, 1000]} useMap map={textureTali} repeat={[-4, 1]} lineWidth={1} />
+        {/* FIX: Ubah warna jadi hitam dan kunci kalkulasi resolusi agar tidak berkedip */}
+        <meshLineMaterial 
+          color="black" 
+          depthTest={false} 
+          resolution={[size.width, size.height]} 
+          lineWidth={1} 
+        />
       </mesh>
     </>
   );
 }
+
+useGLTF.preload(cardGLB);
+useTexture.preload(fotoLanyardImg);

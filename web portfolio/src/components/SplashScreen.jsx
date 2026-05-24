@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useProgress } from '@react-three/drei';
 // Pastikan path import ini sesuai dengan struktur foldermu
 import starLogo from '../assets/figma/star_logo.svg';
 
 const SplashScreen = ({ onComplete }) => {
+  const { progress: currentProgress, active } = useProgress();
   const [progress, setProgress] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [blackCurtain, setBlackCurtain] = useState(true);
@@ -12,61 +14,89 @@ const SplashScreen = ({ onComplete }) => {
   const [isBgExiting, setIsBgExiting] = useState(false);
 
   useEffect(() => {
+    let curtainTimer, mountTimer, timer, out1, out2, out3;
+    
     // 1. Memicu hilangnya tirai hitam setelah mount (efek masuk)
-    const curtainTimer = setTimeout(() => {
+    curtainTimer = setTimeout(() => {
       setBlackCurtain(false);
     }, 100);
 
     // 2. Memicu animasi elemen teks & ornamen setelah tirai mulai terbuka
-    const mountTimer = setTimeout(() => {
+    mountTimer = setTimeout(() => {
       setIsMounted(true);
     }, 300);
 
     document.body.style.overflow = 'hidden';
 
-    // Durasi total loading
-    const duration = 1300; 
-    const intervalTime = 15;
-    const totalSteps = duration / intervalTime;
-    let step = 0;
-
-    const timer = setInterval(() => {
-      step++;
-      const progressRatio = step / totalSteps;
-      const easeOut = 1 - Math.pow(1 - progressRatio, 3);
-      const currentProgress = Math.min(Math.round(easeOut * 100), 100);
-      
-      setProgress(currentProgress);
-
-      if (step >= totalSteps) {
-        clearInterval(timer);
+    // Timer untuk animasi progress agar halus mengejar target currentProgress
+    timer = setInterval(() => {
+      setProgress((prev) => {
+        // Gabungkan: jika halaman juga utuh, dan 3D loading beres atau tak ada, maka kejar 100.
+        const target = (currentProgress === 100 || !active) && document.readyState === 'complete' ? 100 : Math.max(currentProgress, prev + 1);
         
-        // Skenario Animasi Keluar (Exit) yang lebih berkelas:
-        setTimeout(() => {
-          // Tahap 1: Teks & Logo membesar dan memudar ke kamera
-          setIsContentExiting(true);
-          
-          // Tahap 2: Delay 300ms, lalu background putih ditarik ke atas
-          setTimeout(() => {
-            setIsBgExiting(true);
-            
-            // Tahap 3: Hapus komponen setelah background selesai ditarik (700ms)
-            setTimeout(() => {
-              document.body.style.overflow = 'auto';
-              onComplete();
-            }, 700);
-          }, 300);
-        }, 250);
-      }
-    }, intervalTime);
+        let diff = (target - prev) * 0.1;
+        if (target >= 100 && prev >= 99) diff = 100 - prev;
+        else if (diff < 0.5 && prev < target) diff = 0.5;
+        
+        const next = Math.min(Math.round(prev + diff), 100);
+        return next;
+      });
+    }, 30);
 
     return () => {
-      clearInterval(timer);
       clearTimeout(curtainTimer);
       clearTimeout(mountTimer);
-      document.body.style.overflow = 'auto';
+      clearInterval(timer);
+      if(out1) clearTimeout(out1);
+      if(out2) clearTimeout(out2);
+      if(out3) clearTimeout(out3);
+      document.body.style.overflow = '';
     };
-  }, [onComplete]);
+  }, [currentProgress]);
+
+  // Pantau kapan progress mencapai 100% dan halaman sudah utuh
+  useEffect(() => {
+    let out1, out2, out3;
+    const isDocReady = document.readyState === 'complete';
+    
+    // Check if everything is completely loaded
+    if (progress >= 100) {
+      if (document.readyState !== 'complete') {
+        const handleLoad = () => {
+          triggerExit();
+        };
+        window.addEventListener('load', handleLoad);
+        return () => window.removeEventListener('load', handleLoad);
+      } else {
+        triggerExit();
+      }
+    }
+
+    function triggerExit() {
+      // Skenario Animasi Keluar (Exit) yang lebih berkelas:
+      out1 = setTimeout(() => {
+        // Tahap 1: Teks & Logo membesar dan memudar ke kamera
+        setIsContentExiting(true);
+        
+        // Tahap 2: Delay 300ms, lalu background putih ditarik ke atas
+        out2 = setTimeout(() => {
+          setIsBgExiting(true);
+          
+          // Tahap 3: Hapus komponen setelah background selesai ditarik (700ms)
+          out3 = setTimeout(() => {
+            document.body.style.overflow = '';
+            onComplete();
+          }, 700);
+        }, 300);
+      }, 500); // Tahan sejenak di 100% sebelum mulai menghilang
+    }
+
+    return () => {
+      if(out1) clearTimeout(out1);
+      if(out2) clearTimeout(out2);
+      if(out3) clearTimeout(out3);
+    };
+  }, [progress, onComplete]);
 
   return (
     <div 

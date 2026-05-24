@@ -5,14 +5,28 @@ import arrowIcon from '../assets/figma/arrow_bottom_right_bold.svg';
 import starIcon from '../assets/figma/star_logo.svg';
 import ScrambledText from './ScrambledText';
 
-const Contact = ({ scrollProgress = 0 }) => {
+const Contact = () => {
   const { lang, setLang, theme, toggleTheme, setTheme } = useThemeLang();
   const [time, setTime] = useState(new Date());
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', message: '' });
-  
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   // State baru untuk mengatur muncul & animasinya Splash Screen
   const [showSplash, setShowSplash] = useState(false);
   const [splashActive, setSplashActive] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        const pct = (window.scrollY / scrollHeight) * 100;
+        setScrollProgress(Math.max(0, Math.min(pct, 100)));
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
